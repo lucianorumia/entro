@@ -1,0 +1,15 @@
+# Indexes
+Options -Indexes
+
+# Error Files
+#ErrorDocument 403 /error=403
+#ErrorDocument 404 /error=404
+
+# Set php.ini
+#php_flag
+#php_value upload_max_filesize 5M
+
+# Rewrite Rules
+RewriteEngine On
+RewriteRule ^login$ index.php?view=login
+RewriteRule ^users$ index.php?view=users

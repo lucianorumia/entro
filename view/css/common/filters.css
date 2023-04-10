@@ -1,0 +1,56 @@
+.filter-strip {
+    background-color: var(--def-light-gray);
+    padding: .8rem 2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.filter-strip__filters {
+    display: flex;
+    flex-direction: row;
+    column-gap: .6rem;
+}
+
+.filter-strip__element {
+    font-size: .9rem;
+    font-weight: 400;
+    color: var(--def-back-gray);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.filter-strip__input {
+    font-size: .9rem;
+    font-weight: 400;
+    color: var(--def-back-gray);
+    background-color: white;
+    height: 1.7rem;
+    padding: .2em .4em;
+    border: none;
+    border-radius: 4px;
+}
+
+.filter-strip__action-buttons {
+    display: flex;
+    flex-direction: column;
+    row-gap: .2rem;
+}
+
+.filter-strip__button {
+    font-size: .9rem;
+    font-weight: 400;
+    color: var(--def-back-gray);
+    background-color: var(--def-mid-light-gray);
+    border: none;
+    border-radius: 4px;
+    padding: .2rem;
+    min-width: 5rem;
+}
+
+.filter-strip__button:hover {
+    color: var(--def-light-gray);
+    background-color: var(--def-accent-color);
+}

@@ -1,0 +1,10 @@
+@import "/view/css/common/filters.css";
+@import "/view/css/common/def-table.css";
+@import "/view/css/common/action-bar.css";
+
+.def-table__container {
+    flex: 1;
+    overflow: auto;
+    /* padding-bottom: 2rem; */
+    /* box-shadow: var(--def-mid-dark-gray) inset 0px -4px 4px; */
+}

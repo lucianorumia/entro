@@ -1,0 +1,70 @@
+.def-table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.def-table thead {
+    position: sticky;
+    top: 0;
+    box-shadow: var(--def-mid-dark-gray) 0px 1px;
+}
+
+.def-table thead th {
+    font-weight: 600;
+    padding-top: 2rem;
+    background-color: var(--def-back-gray);
+}
+
+.def-table tbody tr {
+    border-color: var(--def-mid-dark-gray);
+    border-width: 1px;
+    border-style: solid none;
+}
+
+.def-table tbody tr:hover {
+    background-color: var(--def-accent-color);
+}
+
+.def-table th,
+.def-table td {
+    padding: .2em 1em;
+}
+
+/* .def-table th:nth-child(1),
+.def-table td:nth-child(1) {
+    padding: .2em .4em;
+} */
+
+/* .def-table td:last-child {
+    padding-right: 12px;
+} */
+
+.def-table__row-mark--def {
+    width: .5em;
+    height: 1.4em;
+    border-radius: 4px;
+    background-color: var(--def-accent-color);
+}
+
+.def-table tbody tr:hover .def-table__row-mark--def {
+    background-color: var(--def-mid-dark-gray);
+}
+
+.def-table__plus-btn {
+    --length: 1.3em;
+    visibility: hidden;
+    border: none;
+    border-radius: 4px;
+    display: flex;
+    width: var(--length);
+    height: var(--length);
+    justify-content: center;
+    align-items: center;
+    color: var(--def-back-gray);
+    background-color: var(--def-light-gray);
+    text-decoration: none;
+}
+
+.def-table tbody tr:hover .def-table__plus-btn {
+    visibility: visible;
+}

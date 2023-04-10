@@ -1,0 +1,60 @@
+.main-container {
+    align-items: center;
+    justify-content: space-evenly;
+    overflow-y: hidden;
+}
+
+.movements {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    width: 70%;
+    overflow-y: auto;
+}
+
+.movements__title {
+    text-align: center;
+    font-weight: 600;
+    margin: 2rem 0 .5rem;
+}
+
+.movs-table {
+    flex: 1;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 .3em;
+    overflow-y: auto;
+}
+
+.movs-table__row {
+    font-size: 1rem;
+    color: var(--def-light-gray);
+    text-align: center;
+    padding: .3em;
+    border-radius: 6px;
+}
+
+.movs-table__row--entry {
+    background-color: var(--def-entry-color);
+}
+
+.movs-table__row--exit {
+    background-color: var(--def-exit-color);
+}
+
+.movements__message {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.accum {
+    margin: 1.3rem 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.accum__label {
+    color: var(--def-accent-color);
+    font-size: .8rem;
+}

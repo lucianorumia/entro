@@ -1,0 +1,27 @@
+.def-form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+.def-form__label {
+    font-size: 1rem;
+    padding: .5em 0 .15em;
+}
+
+.def-form__field {
+    font-size: 1rem;
+    font-weight: 400;
+    padding: .15em .4em;
+    border: none;
+    border-radius: 4px;
+    color: var(--def-back-gray);
+    background-color: var(--def-light-gray);
+    opacity: 1;
+}
+
+.def-form__field:disabled {
+    background-color: var(--def-mid-light-gray);
+    opacity: 1;
+}

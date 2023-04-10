@@ -1,0 +1,36 @@
+.action-bar {
+    padding: .8rem 2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: .5rem;
+    justify-content: flex-end;
+}
+
+.action-bar__circle {
+    width: 40px;
+    aspect-ratio: 1;
+    margin-left: .5rem;
+    background-color: var(--def-accent-color);
+    border: 2px solid var(--def-accent-color);
+    border-radius: 50%;
+    background-image: url(/view/res/optns_light_64.png);
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+}
+
+.action-bar__button {
+    color: var(--def-light-gray);
+    background-color: transparent;
+    padding: .3em .5rem;
+    min-width: 6rem;
+    border: 1px solid var(--def-accent-color);
+    border-radius: 4px;
+}
+
+.action-bar__button:hover {
+    background-color: var(--def-accent-color);
+}

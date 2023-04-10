@@ -1,0 +1,170 @@
+.sprclss--multi-x {
+    flex: 1;
+    position: relative;
+    width: 200vw;
+    display: flex;
+    left: 0;
+    transition: left var(--def-transition-duration);
+}
+
+.movement {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+movement__clock {
+    color: var(--def-light-gray);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#clock-date {
+    font-size: 6vw;
+}
+
+#clock-time {
+    font-size: 12vw;
+}
+
+.movement__button {
+    color: var(--def-light-gray);
+    font-size: 10vw;
+    border: none;
+    border-radius: 10px;
+    min-width: 50%;
+    padding: 1.5rem 2rem;
+    background-color: var(--def-entry-color);
+}
+
+.movement__button::before {
+    content: 'ENTRO';
+}
+
+.movement__button--inside {
+    background-color: var(--def-exit-color) !important;
+}
+
+.movement__button--inside::before {
+    content: 'SALGO' !important;
+}
+
+.movement__info {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: .5rem;
+}
+
+.movement__info-title {
+    color: var(--def-accent-color);
+    font-size: .8rem;
+}
+
+.movement__info-description {
+    font-size: 1rem;
+}
+
+.confirm {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-form {
+    max-width: 75%;
+    display: flex;
+    flex-direction: column;
+}   
+
+.confirm-form__movement-type {
+    color: var(--def-light-gray);
+    font-size: 1rem;
+    text-align: center;
+    padding: .5em;
+    border-radius: 4px;
+    background-color: var(--def-entry-color);
+    margin-bottom: 1.5rem;
+}
+
+.confirm-form__movement-type::before {
+    content: 'ENTRADA';
+}
+
+.confirm-form__movement-type--inside {
+    background-color: var(--def-exit-color) !important;
+}
+
+.confirm-form__movement-type--inside::before {
+    content: 'SALIDA';
+}
+
+.confirm-form__input,
+.confirm-form__button {
+    font-size: 100%;
+    padding: .2em .5em;
+}
+
+.confirm-form__input {
+    border: 2px solid var(--def-entry-color);
+    border-radius: 4px;
+}
+
+.confirm-form__input--inside {
+    border-color: var(--def-exit-color);
+}
+
+.confirm-form__input {
+    /* display: block; */
+    width: 100%;
+    margin: .2rem 0 .7rem;
+    background-color: var(--def-light-gray);
+}
+
+.confirm-form__textarea {
+    resize: none;
+}
+
+.confirm-form__buttons-area {
+    /* margin-top: .5rem; */
+    margin-top: 1.4rem;
+    display: flex;
+    gap: 2px;
+}
+
+.confirm-form__button {
+    padding: .4em;
+    width: 50%;
+    color: var(--def-light-gray);
+    background-color: var(--def-entry-color);
+    border: none;
+}
+
+.confirm-form__button--inside {
+    background-color: var(--def-exit-color) !important;
+}
+
+#cancel-btn {
+    border-radius: 4px 0 0 4px;
+}
+
+#confirm-btn {
+    /* font-weight: bold; */
+    border-radius: 0 4px 4px 0;
+    
+}
+
+.contact-form__button {
+    font-weight: 300;
+    color: var(--def-text-color);
+    background-color: var(--alt-back-color);
+    min-width: 5rem;
+}
+
+.contact-form__button:hover {
+    background-color: var(--def-fore-color);
+}
