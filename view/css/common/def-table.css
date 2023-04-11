@@ -15,6 +15,10 @@
     background-color: var(--def-back-gray);
 }
 
+.def-table__order-by {
+    cursor: pointer;
+}
+
 .def-table tbody tr {
     border-color: var(--def-mid-dark-gray);
     border-width: 1px;

@@ -38,21 +38,25 @@ $security = new Security;
     // Set CSS files for view
     switch ($rqsted_view) {
         case View::LOGIN->value:
-            echo '<link rel="stylesheet" href="/view/css/login.css">';
+            $css_file_name = 'login';
             break;
         case View::MOVEMENT->value:
-            echo '<link rel="stylesheet" href="/view/css/movement.css">';
+            $css_file_name = 'movement';
             break;
         case View::INTRADAY->value:
-            echo '<link rel="stylesheet" href="/view/css/intraday.css">';
+            $css_file_name = 'intraday.css';
             break;
         case View::USERS->value:
-            echo '<link rel="stylesheet" href="/view/css/users.css">';
+            $css_file_name = 'users';
             break;
         case View::USER->value:
-            echo '<link rel="stylesheet" href="/view/css/user.css">';
+            $css_file_name = 'user';
+            break;
+        case View::NOW->value:
+            $css_file_name = 'now';
             break;
     }
+    echo "<link rel='stylesheet' href='/view/css/{$css_file_name}.css'>";
     ?>
     <script defer src="/view/js/template.js"></script>
     <?php

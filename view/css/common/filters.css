@@ -22,6 +22,10 @@
     justify-content: center;
 }
 
+.filter-strip__label {
+
+}
+
 .filter-strip__input {
     font-size: .9rem;
     font-weight: 400;

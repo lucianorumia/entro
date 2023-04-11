@@ -14,6 +14,10 @@ updateBtn.addEventListener('click', () => {
     let modalBtns = [MODAL_BUTTON.OK];
     setModal(modal, MODAL_MODE.INFO, modalTitle, modalText, modalBtns)
 
+    modal.addEventListener('close', () => {
+        resetModal(modal);
+    }, {once: true});
+
     modal.showModal();
 });
 
