@@ -7,6 +7,7 @@ require '../model/connection.php';
 require '../model/movement.php';
 require '../model/user.php';
 
+use controller\Security;
 use controller\Movement;
 use controller\User;
 

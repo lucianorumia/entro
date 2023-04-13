@@ -36,7 +36,7 @@ class Movement extends Connection {
         return $resp;
     }
 
-    public function selectMovementsByUser($user_id, $datetime_from, $datetime_to): array|false {
+    public function selectMovementsByUser($user_id, $datetime_from, $datetime_to): array {
         
         if($datetime_to) {
             $where_date = "date_time BETWEEN :from AND :to";

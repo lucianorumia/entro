@@ -1,0 +1,34 @@
+@import "/view/css/common/filters.css";
+@import "/view/css/common/def-table.css";
+@import "/view/css/common/action-bar.css";
+
+.def-table__container {
+    flex: 1;
+    overflow: auto;
+}
+
+.def-table__row-mark {
+    width: 1em;
+    color: var(--def-light-gray);
+    height: 1.4em;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.def-table__row-mark--entry {
+    background-color: var(--def-entry-color);
+}
+
+.def-table__row-mark--entry::after {
+    content: "E";
+}
+
+.def-table__row-mark--exit {
+    background-color: var(--def-exit-color);
+}
+
+.def-table__row-mark--exit::after {
+    content: "S";
+}

@@ -5,6 +5,7 @@ require 'user.php';
 require '../model/connection.php';
 require '../model/user.php';
 
+use controller\Security;
 use controller\User;
 
 $security = new Security;

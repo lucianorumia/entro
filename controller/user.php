@@ -1,6 +1,7 @@
 <?php
 namespace controller;
 
+use controller\Security;
 use model\User as User_mdl;
 
 class User {
@@ -36,6 +37,26 @@ class User {
     public function getUsers($name = null, $role_id = null) {
         $user_mdl = new User_mdl;
         $resp = $user_mdl->selectUsers($name, $role_id);
+
+        return $resp;
+    }
+
+    public function getEmployees(): array|false {
+        $security = new Security;
+        $user_mdl = new User_mdl;
+        $rows = $user_mdl->selectEmployees();
+        
+        if ($rows) {
+            $resp = [];
+            foreach ($rows as $i => $row) {
+                $resp[$i] = [
+                    'key' => $security->aideEncrypt($row['id']),
+                    'name' => $row['name']
+                ];
+            }
+        } else {
+            $resp = false;
+        }
 
         return $resp;
     }

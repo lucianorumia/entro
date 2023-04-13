@@ -15,7 +15,7 @@
 
 .filter-strip__element {
     font-size: .9rem;
-    font-weight: 400;
+    /* font-weight: 400; */
     color: var(--def-back-gray);
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@
 }
 
 .filter-strip__label {
-
+    font-weight: 400;
 }
 
 .filter-strip__input {

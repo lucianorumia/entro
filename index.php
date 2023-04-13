@@ -2,6 +2,8 @@
 require "controller/config.php";
 require "controller/security.php";
 
+use controller\Security;
+
 session_start();
 if (isset($_SESSION["user_id"])) {
     $logged_in = true;
@@ -38,46 +40,59 @@ $security = new Security;
     // Set CSS files for view
     switch ($rqsted_view) {
         case View::LOGIN->value:
-            $css_file_name = 'login';
+            $css_filename = 'login';
             break;
         case View::MOVEMENT->value:
-            $css_file_name = 'movement';
+            $css_filename = 'movement';
             break;
         case View::INTRADAY->value:
-            $css_file_name = 'intraday.css';
+            $css_filename = 'intraday';
             break;
         case View::USERS->value:
-            $css_file_name = 'users';
+            $css_filename = 'users';
             break;
         case View::USER->value:
-            $css_file_name = 'user';
+            $css_filename = 'user';
             break;
         case View::NOW->value:
-            $css_file_name = 'now';
+            $css_filename = 'now';
+            break;
+        case View::PERIOD->value:
+            $css_filename = 'period';
             break;
     }
-    echo "<link rel='stylesheet' href='/view/css/{$css_file_name}.css'>";
+    echo "<link rel='stylesheet' href='/view/css/{$css_filename}.css'>";
     ?>
     <script defer src="/view/js/template.js"></script>
     <?php
     // Set JS files for view
     switch ($rqsted_view) {
-        // case View::LOGIN->value:
-        //     echo '<script defer src="/views/js/login.js"></script>';
-        //     break;
+        case View::LOGIN->value:
+            $js_filename = 'login';
+            break;
         case View::MOVEMENT->value:
-            echo '<script defer type="module" src="/view/js/movement.js"></script>';
+            $js_filename = 'movement';
             break;
         case View::INTRADAY->value:
-            echo '<script defer type="module" src="/view/js/intraday.js"></script>';
+            $js_filename = 'intraday';
             break;
         case View::USERS->value:
-            echo '<script defer type="module" src="/view/js/users.js"></script>';
+            $js_filename = 'users';
+            break;
+        case View::PERIOD->value:
+            $js_filename = 'period';
+            break;
+        case View::NOW->value:
+            $js_filename = 'now';
             break;
     }
+    echo "<script defer type='module' src='/view/js/{$js_filename}.js'></script>";
     ?>
 </head>
 <body>
+    <noscript>
+        Habilit&aacute; JavaScript para ejecutar correctamente la aplicaci&oacute;n.
+    </noscript>
     <nav class="top-nav">
         <div class="top-nav__left-links">
             <?php

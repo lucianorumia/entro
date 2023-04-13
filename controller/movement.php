@@ -31,7 +31,7 @@ class Movement {
         return $resp;
     }
 
-    public function getUserMovements($user_id, $datetime_from, $datetime_to = null): ?array {
+    public function getUserMovements($user_id, $datetime_from, $datetime_to = null): array {
         $movement_mdl = new Movement_mdl;
         $resp = $movement_mdl->selectMovementsByUser($user_id, $datetime_from, $datetime_to);
 

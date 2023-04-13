@@ -3,13 +3,14 @@ namespace model;
 
 // Global namespaces
 use \PDO;
+use USER_ROLE;
 
 class User extends Connection {
 
     public function __construct() {
         parent::__construct();
     }
-
+    
     public function selectUserById($id) {
         $sql = "SELECT * " // id, name, pass, email, role_id
                 . "FROM users "
@@ -64,6 +65,17 @@ class User extends Connection {
             $stmt->bindValue(':role_id', $role_id, PDO::PARAM_INT);
         }
 
+        $stmt->execute();
+        $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $resp;
+    }
+
+    public function selectEmployees(): array|false {
+        $sql = 'SELECT id, name '
+            . 'FROM users '
+            . 'WHERE role_id = ' . USER_ROLE::EMPLEADO->value;
+        $stmt = $this->connection->prepare($sql);
         $stmt->execute();
         $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
