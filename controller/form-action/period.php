@@ -33,14 +33,12 @@ try {
         foreach ($rows as $index => $row) {
             $datetime = new DateTime($row['date_time'], UTC_TIMEZONE);
             $datetime->setTimezone(DEF_TIMEZONE);
-            $date = $datetime->format('d-m-Y');
-            $time = $datetime->format('H:i:s');
+            $formated_datetime = $datetime->format('c');
 
             $movements[$index] = [
                 'key' => $security->aideEncrypt($row['id']),
                 'type' => $row['mov_type_id'],
-                'date' => $date,
-                'time' => $time,
+                'datetime' => $formated_datetime,
             ];
         }
 

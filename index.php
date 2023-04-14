@@ -61,7 +61,7 @@ $security = new Security;
             $css_filename = 'period';
             break;
     }
-    echo "<link rel='stylesheet' href='/view/css/{$css_filename}.css'>";
+    if (isset($css_filename)) echo "<link rel='stylesheet' href='/view/css/{$css_filename}.css'>";
     ?>
     <script defer src="/view/js/template.js"></script>
     <?php
@@ -86,7 +86,7 @@ $security = new Security;
             $js_filename = 'now';
             break;
     }
-    echo "<script defer type='module' src='/view/js/{$js_filename}.js'></script>";
+    if (isset($js_filename)) echo "<script defer type='module' src='/view/js/{$js_filename}.js'></script>";
     ?>
 </head>
 <body>

@@ -1,3 +1,5 @@
+import { Ymd, His, msToHis, msToDecHs, MILISECONDS } from "./modules/dates.js";
+
 const filterForm = document.getElementById('filter-form');
 const userInp = document.getElementById('user');
 const dateFromInp = document.getElementById('date-from');
@@ -38,21 +40,59 @@ function getMovements() {
     .then(response => response.json())
     .then(respData => {
         if (respData.success) {
-            if (respData.movements.length > 0) {
+            const qMovements = respData.movements.length;
+            if (qMovements > 0) {
+                let partialMs = 0;
+                let accumMs = 0;
+                let endsInside = false;
                 const userPeriodTbody = document.getElementById('user-period-tbody');
-
                 userPeriodTbody.innerHTML = '';
 
-                respData.movements.forEach(movement => {
+                respData.movements.forEach((movement, i) => {
+                    const datetime = new Date(movement.datetime);
+                    const ms = datetime.getTime();
+                    let partial;
+                    let accum;
+                    let cssClass;
+
+                    if (movement.type) {
+                        partialMs -= ms;
+                        accumMs -= ms;
+                        if (i === qMovements - 1) {
+                            endsInside = true;
+                        }
+                        partial = '';
+                        accum = '';
+                        cssClass = 'def-table__row-mark--entry';
+                    } else {
+                        partialMs += ms;
+                        accumMs += ms;
+                        if (i === 0) {
+                            const datetimeFrom = new Date(dateFromInp.value);
+                            datetimeFrom.setTime(datetimeFrom.getTime() + datetimeFrom.getTimezoneOffset() * MILISECONDS.MIN);
+                            partialMs -= datetimeFrom.getTime();
+                            accumMs -= datetimeFrom.getTime();
+                        }
+                        const hisPartialMs = msToHis(partialMs);
+                        partial = `${hisPartialMs.H}:${hisPartialMs.i}:${hisPartialMs.s}`;
+                        partialMs = 0;
+                        accum = msToDecHs(accumMs, 2);
+                        cssClass = 'def-table__row-mark--exit';
+                    }
+
                     const newElement = document.createElement('tr');
-                    let movType = movement.type ? 'def-table__row-mark--entry' : 'def-table__row-mark--exit';
-                    const innerHtmlStr = `<td><div class="def-table__row-mark ${movType}"></div></td>
-                        <td>${movement.date}</td>
-                        <td>${movement.time}</td>
+                    const ymdDatetime = Ymd(datetime);
+                    const formatedDate = `${ymdDatetime.d}-${ymdDatetime.m}-${ymdDatetime.Y}`;
+                    const hisDatetime = His(datetime);
+                    const formatedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
+                    const innerHtmlStr = `<td><div class="def-table__row-mark ${cssClass}"></div></td>
+                        <td>${formatedDate}</td>
+                        <td>${formatedTime}</td>
+                        <td>${partial}</td>
+                        <td>${accum}</td>
                         <td>
                             <a class="def-table__plus-btn" href="/index.php?view=movement&id=${movement.key}">+</a>
                         </td>`;
-                    
                     newElement.classList.add('def-table__body-row')
                     newElement.innerHTML = innerHtmlStr;
                     userPeriodTbody.appendChild(newElement);    

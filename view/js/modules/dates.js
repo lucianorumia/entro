@@ -29,6 +29,16 @@ function msToHis(ms) {
     return his;
 }
 
+function msToDecHs(ms, decDig) {
+    const numHs = ms / MILISECONDS.HOUR;
+    const strHs = numHs.toLocaleString(undefined, {
+        minimumFractionDigits: decDig,
+        maximumFractionDigits: decDig,
+    });
+
+    return strHs;
+}
+
 function hsMinElapsed(date1, date2) {
     const time = date2.getTime() - date1.getTime();
     const hs =  Math.floor(time / MILISECONDS.HOUR);
@@ -59,6 +69,20 @@ function absDay(date) {
     const res = Math.floor((date.getTime() - timezoneOffsetMs) / MILISECONDS.DAY);
 
     return res;
+}
+
+function Ymd(date) {
+    const Y = date.getFullYear();
+    const m = twoDigitsStr(date.getMonth() + 1);
+    const d = twoDigitsStr(date.getDate());
+
+    const ymd = {
+        Y:Y,
+        m:m,
+        d:d
+    }
+
+    return ymd;
 }
 
 function His(date) {
@@ -142,9 +166,11 @@ export {
     MILISECONDS,
     utcToLocalDate,
     msToHis,
+    msToDecHs,
     hsMinElapsed,
     sameDay,
     absDay,
+    Ymd,
     His,
     DjMHis,
     twoDigitsStr,

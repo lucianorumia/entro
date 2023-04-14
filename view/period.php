@@ -57,6 +57,8 @@ $movement_ctrl = new Movement_ctrl;
                 <th></th>
                 <th>Fecha</th>
                 <th>Hora</th>
+                <th>Parcial</th>
+                <th>Total Hs.</th>
                 <th></th>
             </tr>
         </thead>
