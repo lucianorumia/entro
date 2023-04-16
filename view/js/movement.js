@@ -1,4 +1,4 @@
-import { utcToLocalDate, DjMHis, hsMinElapsed, sameDay } from "./modules/dates.js";
+import { utcToLocalDate, DjMHis, hsMinElapsed, sameDays } from "./modules/dates.js";
 
 const multiX = document.querySelector('.sprclss--multi-x');
 const movementBtn = document.querySelector('.movement__button');
@@ -59,7 +59,7 @@ function setClocks() {
         const lastEntryDjmhis = DjMHis(lastEntry);
         const timeElapsed = hsMinElapsed(lastEntry, now);
 
-        if (!sameDay(lastEntry, now)) {
+        if (!sameDays(lastEntry, now)) {
             entryDateElm.textContent = `${lastEntryDjmhis.j} de ${lastEntryDjmhis.M}, `;
         }
         entryTimeElm.textContent = `${lastEntryDjmhis.H}:${lastEntryDjmhis.i}:${lastEntryDjmhis.s}`;

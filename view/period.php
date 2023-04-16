@@ -51,14 +51,14 @@ $movement_ctrl = new Movement_ctrl;
     <input type="hidden" id="fran" value="<?php echo $security->franEncrypt(View::PERIOD->value); ?>">
 </form>
 <div class="def-table__container">
-    <table class="def-table">
+    <table class="def-table" id="user-period-table">
         <thead>
             <tr>
                 <th></th>
                 <th>Fecha</th>
                 <th>Hora</th>
                 <th>Parcial</th>
-                <th>Total Hs.</th>
+                <th>Hs. Acum.</th>
                 <th></th>
             </tr>
         </thead>

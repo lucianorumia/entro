@@ -173,8 +173,8 @@ body {
 .page-title {
     font-size: 3rem;
     font-weight: 500;
-    /* color: var(--def-dark-gray); */
-    color: var(--def-accent-color);
+    color: var(--def-back-gray);
+    /* color: var(--def-accent-color); */
     background-color: white;
     padding: 2rem 2rem 0;
 }

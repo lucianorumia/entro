@@ -5,6 +5,12 @@
 .def-table__container {
     flex: 1;
     overflow: auto;
+    display: flex;
+}
+
+#user-period-table {
+    margin: auto auto;
+    visibility: hidden;
 }
 
 .def-table__row-mark {
@@ -31,6 +37,27 @@
 
 .def-table__row-mark--exit::after {
     content: "S";
+}
+
+.def-table__row-mark--start-of-day {
+    background-color: var(--def-entry-color);
+}
+
+.def-table__row-mark--end-of-day {
+    background-color: var(--def-exit-color);
+}
+
+.def-table__row-mark--start-of-day::after,
+.def-table__row-mark--end-of-day::after {
+    content: "!";
+}
+
+.def-table__row-mark--inside-now {
+    background-color: var(--def-exit-color);
+}
+
+.def-table__row-mark--inside-now::after {
+    content: "...";
 }
 
 .def-table td:nth-child(2),

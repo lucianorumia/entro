@@ -53,6 +53,26 @@ function hsMinElapsed(date1, date2) {
 }
 
 function sameDay(date1, ...dates) {
+    const refDate = date1.getDate();
+    const refMonth = date1.getMonth();
+    const refYear = date1.getFullYear();
+
+    for (let i = 0; i < dates.length; i++) {
+        const compDate = dates[i].getDate();
+        const compMonth = dates[i].getMonth();
+        const compYear = dates[i].getFullYear();
+        
+        if(refDate !== compDate
+            || refMonth !== compMonth
+            || refYear !== compYear) {
+            return false;
+        };
+    }
+
+    return true;
+}
+
+function sameDays(date1, ...dates) {
     let refDay = absDay(date1);
 
     for (let i = 0; i < dates.length; i++) {
@@ -169,6 +189,7 @@ export {
     msToDecHs,
     hsMinElapsed,
     sameDay,
+    sameDays,
     absDay,
     Ymd,
     His,
