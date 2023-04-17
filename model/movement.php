@@ -44,9 +44,11 @@ class Movement extends Connection {
             $where_date = "date_time >= :from";
         }
         
-        $sql = "SELECT * 
-            FROM movements
-            WHERE user_id = :user_id AND " . $where_date;
+        $sql = 'SELECT * '
+            . 'FROM movements '
+            . 'WHERE user_id = :user_id AND '
+            . $where_date
+            . ' ORDER BY date_time';
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);

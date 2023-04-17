@@ -6,17 +6,34 @@ const dateFromInp = document.getElementById('date-from');
 const dateToInp = document.getElementById('date-to');
 const applyFilters = document.getElementById('apply-flt');
 const resetFilters = document.getElementById('reset-flt');
+const userPeriodTbody = document.getElementById('user-period-tbody');
+const rowMarkModifier = {
+    entry: 'entry',
+    exit: 'exit',
+    startOfDay: 'start-of-day',
+    endOfDay: 'end-of-day',
+    insideNow: 'inside-now',
+};
 let preAccum;
 let prePartial;
 
 // let applyFiltersFlag = false;
 // let resetFiltersFlag = true;
 
-applyFilters.addEventListener('click', getMovements);
-
-resetFilters.addEventListener('click', () => {
-    filterForm.reset();
-});
+function addTableRow(markModifier, date, time, partial, accum, movementKey) {
+    const newElement = document.createElement('tr');
+    const insideNow = (markModifier === rowMarkModifier.insideNow);
+    const plusBtn = (movementKey === undefined) ? '' : `<a class="def-table__plus-btn" href="/index.php?view=movement&id=${movementKey}">+</a>`
+    const innerHtmlStr = `<td><div class="def-table__row-mark def-table__row-mark--${markModifier}"></div></td>
+        <td>${date}</td>
+        <td${insideNow ? ' id="now-time"' : ''}>${time}</td>
+        <td${insideNow ? ' id="now-partial"' : ''}>${partial ?? ''}</td>
+        <td${insideNow ? ' id="now-accum"' : ''}>${accum ?? ''}</td>
+        <td>${plusBtn}</td>`
+    newElement.classList.add('def-table__body-row')
+    newElement.innerHTML = innerHtmlStr;
+    userPeriodTbody.appendChild(newElement);
+}
 
 function updateTimes() {
     const nowTimeTd = document.getElementById('now-time');
@@ -66,7 +83,6 @@ function getMovements() {
     .then(respData => {
         if (respData.success) {
             const userPeriodTable = document.getElementById('user-period-table');
-            const userPeriodTbody = document.getElementById('user-period-tbody');
             userPeriodTbody.innerHTML = '';
 
             const qMovements = respData.movements.length;
@@ -89,7 +105,7 @@ function getMovements() {
                         }
                         partialDisplay = '';
                         accumDisplay = '';
-                        cssClass = 'def-table__row-mark--entry';
+                        cssClass = rowMarkModifier.entry;
                     } else {
                         partialMs += ms;
 
@@ -102,16 +118,7 @@ function getMovements() {
                             const formatedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
                             const startDayCaption = '00:00:00';
 
-                            const newElement = document.createElement('tr');
-                            const innerHtmlStr = `<td><div class="def-table__row-mark def-table__row-mark--start-of-day"></div></td>
-                                <td>${formatedDate}</td>
-                                <td>${startDayCaption}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>`;
-                            newElement.classList.add('def-table__body-row')
-                            newElement.innerHTML = innerHtmlStr;
-                            userPeriodTbody.appendChild(newElement);
+                            addTableRow(rowMarkModifier.startOfDay, formatedDate, startDayCaption);
                         }
 
                         const hisPartial = msToHis(partialMs);
@@ -119,25 +126,15 @@ function getMovements() {
                         accumMs += partialMs; //increase accum
                         partialMs = 0; //reset partial
                         accumDisplay = msToDecHs(accumMs, 2);
-                        cssClass = 'def-table__row-mark--exit';
+                        cssClass = rowMarkModifier.exit;
                     }
 
-                    const newElement = document.createElement('tr');
                     const ymdDatetime = Ymd(datetime);
                     const formatedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
                     const hisDatetime = His(datetime);
                     const formatedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
-                    const innerHtmlStr = `<td><div class="def-table__row-mark ${cssClass}"></div></td>
-                        <td>${formatedDate}</td>
-                        <td>${formatedTime}</td>
-                        <td>${partialDisplay}</td>
-                        <td>${accumDisplay}</td>
-                        <td>
-                            <a class="def-table__plus-btn" href="/index.php?view=movement&id=${movement.key}">+</a>
-                        </td>`;
-                    newElement.classList.add('def-table__body-row')
-                    newElement.innerHTML = innerHtmlStr;
-                    userPeriodTbody.appendChild(newElement);
+
+                    addTableRow(cssClass, formatedDate, formatedTime, partialDisplay, accumDisplay, movement.key);
                 });
 
                 if (endsInside) {
@@ -161,17 +158,7 @@ function getMovements() {
                         partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
                         accumDisplay = msToDecHs(accumMs, 2);
 
-                        const newElement = document.createElement('tr');
-                        const innerHtmlStr = `<td><div class="def-table__row-mark def-table__row-mark--inside-now"></div></td>
-                            <td>${formatedDate}</td>
-                            <td id="now-time">${formatedTime}</td>
-                            <td id="now-partial">${partialDisplay}</td>
-                            <td id="now-accum">${accumDisplay}</td>
-                            <td></td>`;
-                        newElement.classList.add('def-table__body-row')
-                        newElement.innerHTML = innerHtmlStr;
-                        userPeriodTbody.appendChild(newElement);
-
+                        addTableRow(rowMarkModifier.insideNow, formatedDate, formatedTime, partialDisplay, accumDisplay);
                         updateTimes();
                     } else {
                         datetimeTo.setTime(datetimeTo.getTime() + MILISECONDS.DAY);
@@ -186,16 +173,7 @@ function getMovements() {
                         partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
                         accumDisplay = msToDecHs(accumMs, 2);
 
-                        const newElement = document.createElement('tr');
-                        const innerHtmlStr = `<td><div class="def-table__row-mark def-table__row-mark--end-of-day"></div></td>
-                            <td>${formatedDate}</td>
-                            <td>${endDayCaption}</td>
-                            <td>${partialDisplay}</td>
-                            <td>${accumDisplay}</td>
-                            <td></td>`;
-                        newElement.classList.add('def-table__body-row')
-                        newElement.innerHTML = innerHtmlStr;
-                        userPeriodTbody.appendChild(newElement);
+                        addTableRow(rowMarkModifier.endOfDay, formatedDate, endDayCaption, partialDisplay, accumDisplay);
                     }
                 }
                 userPeriodTable.style.visibility = "visible";
@@ -213,3 +191,9 @@ function getMovements() {
         alert('Ha ocurrido un error!\nPonete en contacto con el administrador del sistema.');
     })
 }
+
+applyFilters.addEventListener('click', getMovements);
+
+resetFilters.addEventListener('click', () => {
+    filterForm.reset();
+});
