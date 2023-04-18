@@ -6,7 +6,7 @@ require 'model/movement.php';
 ?>
 <h1 class="page-title">Dentro/fuera</h1>
 <!-- filter-strip -->
-<form class="filter-strip" id="flt-form">
+<form class="filter-strip" id="filter-form">
     <div class="filter-strip__filters">
         <div class="filter-strip__element">
             <label class="filter-strip__label" for="user">Nombre</label>
@@ -28,15 +28,15 @@ require 'model/movement.php';
     </div>
 </form>
 <div class="def-table__container">
-    <table class="def-table">
+    <table class="def-table" id="now-table">
         <thead>
             <tr>
                 <th></th>
-                <th class="def-table__order-by" id="order-by-name">Usuario</th>
-                <th class="def-table__order-by" id="order-by-rol">Entrada/Salida</th>
-                <th></th>
+                <th class="def-table__order-by" id="order-by-name">Empleado</th>
+                <th>Estado</th>
+                <th class="def-table__order-by" id="order-by-datetime">Entrada/Salida</th>
             </tr>
         </thead>
-        <tbody id="now-table-body"></tbody>
+        <tbody id="now-tbody"></tbody>
     </table>
 </div>

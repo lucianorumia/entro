@@ -24,6 +24,38 @@ class Movement extends Connection {
         return $resp;
     }
 
+    public function selectUsersLastMov($name = null, $mov_type_id = null) {
+        $sql = 'SELECT u.id, name, mov_type_id, date_time '
+            . 'FROM movements AS m '
+            . 'JOIN ('
+                . 'SELECT user_id, max(date_time) as date_time '
+                . 'FROM movements '
+                . 'GROUP BY user_id'
+                . ') as sub '
+                . 'USING (user_id, date_time) '
+            . 'RIGHT JOIN users AS u '
+            . 'ON m.user_id = u.id '
+            . 'WHERE u.role_id = 2';
+
+        if ($name) {
+            $sql .= ' AND name like :name';
+        }
+        if ($mov_type_id) {
+            $sql .= ' AND mov_type_id = :mov_type_id';
+        }
+        $stmt = $this->connection->prepare($sql);
+        if ($name) {
+            $stmt->bindValue(':name', "%$name%", PDO::PARAM_STR);
+        }
+        if ($mov_type_id) {
+            $stmt->bindParam(':mov_type_id', $mov_type_id, PDO::PARAM_INT);
+        }
+        $stmt->execute();
+        $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $resp;
+    }
+
     public function insertMov($user_id, $mov_type_id, $date_time) :bool {
         $sql = 'INSERT INTO movements (user_id, mov_type_id, date_time) '
             . 'VALUES (:user_id, :mov_type_id, :date_time)';

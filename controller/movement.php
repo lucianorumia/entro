@@ -37,4 +37,11 @@ class Movement {
 
         return $resp;
     }
+
+    public function getUsersLastMovement($user_name_crtr, $location) {
+        $movement_mdl = new Movement_mdl;
+        $resp = $movement_mdl->selectUsersLastMov($user_name_crtr, $location);
+        
+        return $resp;
+    }
 }
