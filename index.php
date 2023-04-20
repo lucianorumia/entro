@@ -63,7 +63,7 @@ $security = new Security;
     }
     if (isset($css_filename)) echo "<link rel='stylesheet' href='/view/css/{$css_filename}.css'>";
     ?>
-    <script defer src="/view/js/template.js"></script>
+    <script defer type='module' src="/view/js/template.js"></script>
     <?php
     // Set JS files for view
     switch ($rqsted_view) {

@@ -1,8 +1,21 @@
 @import "/view/css/common/filters.css";
 @import "/view/css/common/def-table.css";
 @import "/view/css/common/action-bar.css";
+@import "/view/css/common/modal.css";
 
 .def-table__container {
     flex: 1;
     overflow: auto;
+}
+
+.def-table th {
+    text-align: left;
+}
+
+.def-table__row-mark--inside {
+    background-color: var(--def-entry-color);
+}
+
+.def-table__row-mark--exit {
+    background-color: var(--def-exit-color);
 }

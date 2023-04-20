@@ -35,7 +35,7 @@ $user_ctrl = new User_ctrl;
     </div>
 </form>
 <div class="def-table__container">
-    <table class="def-table">
+    <table class="def-table" id="users-table">
         <thead>
             <tr>
                 <th></th>
@@ -45,7 +45,7 @@ $user_ctrl = new User_ctrl;
                 <th></th>
             </tr>
         </thead>
-        <tbody id="users-table-body"></tbody>
+        <tbody></tbody>
     </table>
 </div>
 <div class="action-bar">

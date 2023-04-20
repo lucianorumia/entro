@@ -23,7 +23,8 @@
 }
 
 .filter-strip__label {
-    font-weight: 400;
+    font-size: 1rem;
+    padding: .2em 0;
 }
 
 .filter-strip__input {
@@ -31,6 +32,7 @@
     font-weight: 400;
     color: var(--def-back-gray);
     background-color: white;
+    min-width: 8rem;
     height: 1.7rem;
     padding: .2em .4em;
     border: none;

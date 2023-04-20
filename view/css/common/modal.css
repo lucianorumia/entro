@@ -7,8 +7,8 @@
     padding: 2rem 2rem 1.5rem;
     color: var(--def-light-gray);
     background-color: var(--def-dark-gray);
-    border: 1px solid var(--def-accent-color);
-    border-radius: 6px;
+    border: 2px solid var(--def-accent-color);
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
@@ -24,23 +24,57 @@
 }
 
 .modal__icon {
-    width: 40px;
-    height: 40px;
-    background-color: #D50000;
+    font-size: 2.5em;
+    font-family: monospace;
+    display: flex;
+    margin-right: 0.6em;
+    padding: 0 0.35em;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal--info .modal__icon,
+.modal--question .modal__icon {
+    background-color: var(--def-accent-color);
+}
+
+.modal--info .modal__icon::after {
+    content: 'i';
+}
+
+.modal--question .modal__icon::after {
+    content: '?';
+}
+
+.modal--error .modal__icon {
+    background-color: var(--def-error-color);
+}
+
+.modal--error .modal__icon::after {
+    content: '!';
 }
 
 .modal__title {
-    font-size: 1.5em;
+    font-size: 1.8em;
+}
+
+.modal__text {
+    font-size: 1.2em;
+    font-weight: 200;
 }
 
 .modal__form {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     column-gap: .5rem;
 }
 
 .modal__button {
-    min-width: 5rem;
+    font-size: 1em;
+    min-width: 7rem;
+    margin-top: 0.5em;
     padding: .2em .5em;
     color: var(--def-light-gray);
     background-color: transparent;

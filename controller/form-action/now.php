@@ -44,17 +44,17 @@ try {
             }
             
             if (is_null($row['date_time'])) {
-                $formated_datetime = null;
+                $formatted_datetime = null;
             } else {
                 $datetime = new DateTime($row['date_time'], UTC_TIMEZONE);
                 $datetime->setTimezone(DEF_TIMEZONE);
-                $formated_datetime = $datetime->format('c');
+                $formatted_datetime = $datetime->format('c');
             }
 
             $movements[$index] = [
                 'user' => $row['name'],
                 'location' => $location,
-                'datetime' => $formated_datetime,
+                'datetime' => $formatted_datetime,
             ];
         }
 

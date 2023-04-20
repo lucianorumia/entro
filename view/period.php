@@ -59,13 +59,13 @@ $movement_ctrl = new Movement_ctrl;
                 <th>Hora</th>
                 <th>Parcial</th>
                 <th>Hs. Acum.</th>
-                <th></th>
+                <!-- <th></th> -->
             </tr>
         </thead>
         <tbody id="user-period-tbody"></tbody>
     </table>
 </div>
-<div class="action-bar">
+<!-- <div class="action-bar">
     <button class="action-bar__button">Exportar</button>
     <div class="action-bar__circle"></div>
-</div>
+</div> -->

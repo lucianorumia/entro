@@ -1,8 +1,11 @@
+import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
+
 const fltForm = document.getElementById('flt-form')
 const nameInp = document.getElementById('name');
 const roleInp = document.getElementById('rol-id');
 const applyFtr = document.getElementById('apply-flt');
 const resetFtr = document.getElementById('reset-flt');
+const modal = document.querySelector('.modal');
 
 getUsers();
 
@@ -33,14 +36,14 @@ function getUsers() {
     .then(response => response.json())
     .then(respData => {
         if (respData.success) {
+            const usersTable = document.getElementById('users-table');
             if (respData.users.length > 0) {
-                const usersTblBody = document.getElementById('users-table-body');
-
+                const usersTblBody = usersTable.querySelector('tbody');
                 usersTblBody.innerHTML = '';
 
                 respData.users.forEach(user => {
                     const newElement = document.createElement('tr');
-                    const innerHtmlStr = `<td><div class="def-table__row-mark--def"></div></td>
+                    const innerHtmlStr = `<td><div class="def-table__row-mark def-table__row-mark--def"></div></td>
                         <td>${user.name}</td>
                         <td>${user.role}</td>
                         <td>${user.email}</td>
@@ -52,8 +55,22 @@ function getUsers() {
                     newElement.innerHTML = innerHtmlStr;
                     usersTblBody.appendChild(newElement);    
                 });
+                usersTable.style.visibility = "visible";
             } else {
-                alert('No hay usuarios para mostrar');
+                usersTable.style.visibility = "hidden";
+
+                let modalTitle = 'Ups!';
+                let modalText = 'No hay usuarios para mostrar.<br>'
+                    + 'Cambiá los criterios de búsqueda y volvé a aplicar el filtro.';
+                let modalBtns = [MODAL_BUTTON.OK];
+                setModal(modal, MODAL_MODE.INFO, modalTitle, modalText, modalBtns);
+
+                modal.addEventListener('close', () => {
+                    resetModal(modal);
+                    nameInp.select();
+                }, {once: true});
+
+                modal.showModal();
             }
         } else {
             alert('Ha ocurrido un error!\nPonete en contacto con el administrador del sistema.');

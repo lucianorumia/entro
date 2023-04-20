@@ -1,6 +1,6 @@
 import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
 
-const modal = document.querySelector('.modal'); 
+const modal = document.querySelector('.modal');
 
 const userForm = document.getElementById('user-form');
 const updateBtn = document.getElementById('update-btn');
@@ -12,7 +12,7 @@ updateBtn.addEventListener('click', () => {
     let modalText = 'Funcionalidad en construcción.<br>'
         + 'Estamos trabajando para habilitarla lo antes posible.';
     let modalBtns = [MODAL_BUTTON.OK];
-    setModal(modal, MODAL_MODE.INFO, modalTitle, modalText, modalBtns)
+    setModal(modal, MODAL_MODE.INFO, modalTitle, modalText, modalBtns);
 
     modal.addEventListener('close', () => {
         resetModal(modal);

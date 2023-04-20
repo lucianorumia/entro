@@ -1,4 +1,5 @@
 import { Ymd, His, msToHis, msToDecHs, sameDay, MILISECONDS } from "./modules/dates.js";
+import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
 
 const filterForm = document.getElementById('filter-form');
 const userInp = document.getElementById('user');
@@ -14,6 +15,7 @@ const rowMarkModifier = {
     endOfDay: 'end-of-day',
     insideNow: 'inside-now',
 };
+const modal = document.querySelector('.modal');
 let preAccum;
 let prePartial;
 
@@ -29,7 +31,7 @@ function addTableRow(markModifier, date, time, partial, accum, movementKey) {
         <td${insideNow ? ' id="now-time"' : ''}>${time}</td>
         <td${insideNow ? ' id="now-partial"' : ''}>${partial ?? ''}</td>
         <td${insideNow ? ' id="now-accum"' : ''}>${accum ?? ''}</td>
-        <td>${plusBtn}</td>`
+        <!-- <td>${plusBtn}</td> -->`
     newElement.classList.add('def-table__body-row')
     newElement.innerHTML = innerHtmlStr;
     userPeriodTbody.appendChild(newElement);
@@ -43,14 +45,14 @@ function updateTimes() {
     setInterval(() => {
         const now = new Date();
         const hisDatetime = His(now);
-        const formatedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
+        const formattedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
         const partialMs = prePartial + now.getTime();
         const hisPartial = msToHis(partialMs);
         const partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
         const accumMs = preAccum + partialMs;  
         const accumDisplay = msToDecHs(accumMs, 2);
         const htmlElmts = [nowTimeTd, nowPartialTd, nowAccumTd];
-        const textContent = [formatedTime, partialDisplay, accumDisplay];
+        const textContent = [formattedTime, partialDisplay, accumDisplay];
 
         htmlElmts.forEach((elmt, i)=>{
             elmt.textContent = textContent[i];
@@ -115,26 +117,26 @@ function getMovements() {
                             partialMs -= datetimeFrom.getTime();
 
                             const ymdDatetime = Ymd(datetimeFrom);
-                            const formatedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
+                            const formattedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
                             const startDayCaption = '00:00:00';
 
-                            addTableRow(rowMarkModifier.startOfDay, formatedDate, startDayCaption);
+                            addTableRow(rowMarkModifier.startOfDay, formattedDate, startDayCaption);
                         }
 
                         const hisPartial = msToHis(partialMs);
                         partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
-                        accumMs += partialMs; //increase accum
-                        partialMs = 0; //reset partial
+                        accumMs += partialMs;
+                        partialMs = 0;
                         accumDisplay = msToDecHs(accumMs, 2);
                         cssClass = rowMarkModifier.exit;
                     }
 
                     const ymdDatetime = Ymd(datetime);
-                    const formatedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
+                    const formattedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
                     const hisDatetime = His(datetime);
-                    const formatedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
+                    const formattedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
 
-                    addTableRow(cssClass, formatedDate, formatedTime, partialDisplay, accumDisplay, movement.key);
+                    addTableRow(cssClass, formattedDate, formattedTime, partialDisplay, accumDisplay, movement.key);
                 });
 
                 if (endsInside) {
@@ -151,14 +153,14 @@ function getMovements() {
                         accumMs += partialMs;
 
                         const ymdDatetime = Ymd(now);
-                        const formatedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
+                        const formattedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
                         const hisDatetime = His(now);
-                        const formatedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
+                        const formattedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
                         const hisPartial = msToHis(partialMs);
                         partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
                         accumDisplay = msToDecHs(accumMs, 2);
 
-                        addTableRow(rowMarkModifier.insideNow, formatedDate, formatedTime, partialDisplay, accumDisplay);
+                        addTableRow(rowMarkModifier.insideNow, formattedDate, formattedTime, partialDisplay, accumDisplay);
                         updateTimes();
                     } else {
                         datetimeTo.setTime(datetimeTo.getTime() + MILISECONDS.DAY);
@@ -167,19 +169,31 @@ function getMovements() {
                         
                         datetimeTo.setTime(datetimeTo.getTime() - 1);
                         const ymdDatetime = Ymd(datetimeTo);
-                        const formatedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
+                        const formattedDate = `${ymdDatetime.d}/${ymdDatetime.m}/${ymdDatetime.Y}`;
                         const hisPartial = msToHis(partialMs);
                         const endDayCaption = '24:00:00';
                         partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
                         accumDisplay = msToDecHs(accumMs, 2);
 
-                        addTableRow(rowMarkModifier.endOfDay, formatedDate, endDayCaption, partialDisplay, accumDisplay);
+                        addTableRow(rowMarkModifier.endOfDay, formattedDate, endDayCaption, partialDisplay, accumDisplay);
                     }
                 }
                 userPeriodTable.style.visibility = "visible";
             } else {
                 userPeriodTable.style.visibility = "hidden";
-                alert('No hay movimientos del usuario en el rango de fechas que seleccionaste.');
+
+                let modalTitle = 'Nada que mostrar';
+                let modalText = 'No hay movimientos para mostrar.<br>'
+                    + 'Cambiá los criterios de búsqueda y volvé a aplicar el filtro.';
+                let modalBtns = [MODAL_BUTTON.OK];
+                setModal(modal, MODAL_MODE.INFO, modalTitle, modalText, modalBtns);
+
+                modal.addEventListener('close', () => {
+                    resetModal(modal);
+                    userInp.select();
+                }, {once: true});
+
+                modal.showModal();
             }
         } else {
             console.error(respData.errorMsg);    

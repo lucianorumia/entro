@@ -8,8 +8,8 @@ require 'model/movement.php';
 <!-- filter-strip -->
 <form class="filter-strip" id="filter-form">
     <div class="filter-strip__filters">
-        <div class="filter-strip__element">
-            <label class="filter-strip__label" for="user">Nombre</label>
+        <div class="filter-strip__element sprclss--display-none">
+            <label class="filter-strip__label" for="user">Empleado</label>
             <input class="filter-strip__input" id="user" type="text" autocomplete="off">
         </div>
         <div class="filter-strip__element">
@@ -33,10 +33,10 @@ require 'model/movement.php';
             <tr>
                 <th></th>
                 <th class="def-table__order-by" id="order-by-name">Empleado</th>
-                <th>Estado</th>
-                <th class="def-table__order-by" id="order-by-datetime">Entrada/Salida</th>
+                <!-- <th>Estado</th> -->
+                <th class="def-table__order-by" id="order-by-datetime">Último movimiento</th>
             </tr>
         </thead>
-        <tbody id="now-tbody"></tbody>
+        <tbody></tbody>
     </table>
 </div>

@@ -40,15 +40,17 @@ class Movement extends Connection {
         if ($name) {
             $sql .= ' AND name like :name';
         }
+
         if ($mov_type_id) {
-            $sql .= ' AND mov_type_id = :mov_type_id';
+            $sql .= ' AND mov_type_id = 1';
+        } elseif (! is_null($mov_type_id)) {
+            $sql .= ' AND (mov_type_id = 0 OR mov_type_id is null)';
         }
+
         $stmt = $this->connection->prepare($sql);
+
         if ($name) {
             $stmt->bindValue(':name', "%$name%", PDO::PARAM_STR);
-        }
-        if ($mov_type_id) {
-            $stmt->bindParam(':mov_type_id', $mov_type_id, PDO::PARAM_INT);
         }
         $stmt->execute();
         $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);

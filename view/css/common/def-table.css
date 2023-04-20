@@ -43,10 +43,13 @@
     padding-right: 12px;
 } */
 
-.def-table__row-mark--def {
+.def-table__row-mark {
     width: .5em;
     height: 1.4em;
     border-radius: 4px;
+}
+
+.def-table__row-mark--def {
     background-color: var(--def-accent-color);
 }
 
