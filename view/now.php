@@ -20,7 +20,7 @@ require 'model/movement.php';
                 <option value="0">Fuera</option>
             </select>
         </div>
-        <input type="hidden" id="fran" value="<?php echo $security->franEncrypt(View::NOW->value); ?>">
+        <input type="hidden" id="fran" value="<?php echo $security->franEncrypt(Views::NOW->value); ?>">
     </div>
     <div class="filter-strip__action-buttons">
         <input type="button" id="apply-flt" class="filter-strip__button" value="Aplicar">

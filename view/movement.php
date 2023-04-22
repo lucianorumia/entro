@@ -9,7 +9,7 @@
     $last_mov = $movement_ctrl->lastUserMov($_SESSION['user_id']);
 ?>
 <script>
-    const fran = '<?php echo $security->franEncrypt(View::MOVEMENT->value) ?>';
+    const fran = '<?php echo $security->franEncrypt(Views::MOVEMENT->value) ?>';
     const userKey = '<?php echo $security->aideEncrypt($_SESSION['user_id']) ?>';
     const lastMov = JSON.parse('<?php echo json_encode($last_mov) ?>');
 </script>

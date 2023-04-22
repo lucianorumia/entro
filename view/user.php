@@ -75,7 +75,7 @@ if ($view_role === ViewRole::DETAIL) {
             }
             ?>
         </select>
-        <input type="hidden" id="fran" name="fran" value="<?php echo $security->franEncrypt(View::USER->value); ?>">
+        <input type="hidden" id="fran" name="fran" value="<?php echo $security->franEncrypt(Views::USER->value); ?>">
         <input type="hidden" id="aide" name="aide" value="<?php echo $get_id; ?>">
     </form>
 </div>

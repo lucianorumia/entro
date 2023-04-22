@@ -1,3 +1,4 @@
+@import "/view/css/common/base.css";
 @import "/view/css/common/modal.css";
 
 .sprclss--multi-x {
@@ -17,7 +18,7 @@
     justify-content: space-evenly;
 }
 
-movement__clock {
+.movement__clock {
     color: var(--def-light-gray);
     display: flex;
     flex-direction: column;

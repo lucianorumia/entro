@@ -1,46 +1,87 @@
+import { CST_ERROR } from "/view/js/modules/errors";
+import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
+
 const loginFrm = document.getElementById('login-frm');
 const userInp = document.getElementById('user-inp');
 const passInp = document.getElementById('pass-inp');
-const loginBtn = document.getElementById('login-btn');
+const submitBtn = document.getElementById('login-submit');
 
-// loginBtn.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     let vldt = formValidate();
-//     if (vldt) {
-//         loginRequest();
-//     }
-// });
+const modal = document.querySelector('.modal');
 
-// function formValidate() {
-//     return true;
-// }
+function loginRqst() {
+    const url = '/controller/form-action/login.php'
+    const dataToSend = new FormData(loginFrm);
+    
+    fetch(url, {
+        method: 'POST',
+        body: dataToSend,
+    })
+    .then(response => response.json())
+    .then(respData => {
+        if (respData.success) {
+            window.location.replace(respData.location);
+        } else {
+            const modalMode = MODAL_MODE.ERROR;
+            const modalBtns = [MODAL_BUTTON.OK];
+            let modalTitle, modalText;
 
-// function resetForm() {
-//     userInp.value = '';
-//     passInp.value = '';
-// }
+            switch (respData.error) {
+                case CST_ERROR.CST1001.code:
+                    modalTitle = CST_ERROR.CST1001.modal.title;
+                    modalText = CST_ERROR.CST1001.modal.text;
+                    setModal(modal, modalMode, modalTitle, modalText, modalBtns);
+                
+                    modal.addEventListener('close', () => {
+                        resetModal(modal);
+                        loginFrm.reset();
+                        userInp.focus();
+                    }, {once: true});
+                
+                    modal.showModal();
+                    break;
+            
+                default:
+                    console.error(respData.error);
+                    modalTitle = CST_ERROR.CST099.modal.title;
+                    modalText = CST_ERROR.CST099.modal.text;
+                    setModal(modal, modalMode, modalTitle, modalText, modalBtns);
+                
+                    modal.addEventListener('close', () => {
+                        resetModal(modal);
+                    }, {once: true});
+                
+                    modal.showModal();
+                    break;
+            }
+        }
+    })
+    .catch(e => {
+        console.error(e);
 
-// function loginRequest() {
-//     let sentData = new FormData(loginFrm);
+        const modalMode = MODAL_MODE.ERROR;
+        const modalBtns = [MODAL_BUTTON.OK];
+        let modalTitle, modalText;
+        
+        modalTitle = CST_ERROR.CST099.modal.title;
+        modalText = CST_ERROR.CST099.modal.text;
+        setModal(modal, modalMode, modalTitle, modalText, modalBtns);
+    
+        modal.addEventListener('close', () => {
+            resetModal(modal);
+        }, {once: true});
+    
+        modal.showModal();
+    })
+}
 
-//     fetch('../controller/login-rqst_ctrl.php', {
-//         method: 'POST',
-//         body: sentData,
-//     })
-//     .then(response => response.json())
-//     .then(respData => {
-//         if (respData.success) {
-//             if (respData.loginOk) {
-//                 window.location.href = '/entro/view/movements_view.php';
-//                 // window.location.replace('/entro/view/movements_view.php');
-//             } else {
-//                 alert('Usuario y/o contraseña incorrectos.');
-//                 resetForm();
-//             }
-//         } else {
-//             const error_msg = respData.error;
-//             console.log(error_msg);
-//             alert('Error inesperado.\nPonete en contacto con el administrador del sistema.');
-//         }
-//     })
-// }
+function formValidate() {
+    return true;
+}
+
+submitBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const vldt = formValidate();
+    if (vldt) {
+        loginRqst();
+    }
+});

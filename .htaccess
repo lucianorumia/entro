@@ -2,8 +2,8 @@
 Options -Indexes
 
 # Error Files
-#ErrorDocument 403 /error=403
-#ErrorDocument 404 /error=404
+#ErrorDocument 403 /index.php?view=error-403
+#ErrorDocument 404 /index.php?view=error-404
 
 # Set php.ini
 #php_flag
@@ -11,5 +11,4 @@ Options -Indexes
 
 # Rewrite Rules
 RewriteEngine On
-RewriteRule ^login$ index.php?view=login
-RewriteRule ^users$ index.php?view=users
+RewriteRule ^([a-z-]+)$ index.php?view=$1 [NC]

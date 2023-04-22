@@ -42,13 +42,12 @@ $movement_ctrl = new Movement_ctrl;
             <label class="filter-strip__label">Hasta</label>
             <input class="filter-strip__input" id="date-to" type="date" value="<?php echo $today; ?>" max="<?php echo $today; ?>">
         </div>
-        <input type="hidden" id="fran" value="<?php echo $security->franEncrypt(View::PERIOD->value); ?>">
+        <input type="hidden" id="fran" value="<?php echo $security->franEncrypt(Views::PERIOD->value); ?>">
     </div>
     <div class="filter-strip__action-buttons">
         <input type="button" id="apply-flt" class="filter-strip__button" value="Aplicar">
         <input type="button" id="reset-flt" class="filter-strip__button" value="Limpiar">
     </div>
-    <input type="hidden" id="fran" value="<?php echo $security->franEncrypt(View::PERIOD->value); ?>">
 </form>
 <div class="def-table__container">
     <table class="def-table" id="user-period-table">

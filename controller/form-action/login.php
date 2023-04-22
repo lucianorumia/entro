@@ -1,11 +1,13 @@
 <?php
-require 'config.php';
-require 'security.php';
-require 'user.php';
-require '../model/connection.php';
-require '../model/user.php';
+require '../config.php';
+require '../security.php';
+require '../cstm-exception.php';
+require '../user.php';
+require '../../model/connection.php';
+require '../../model/user.php';
 
 use controller\Security;
+use controller\CstmException;
 use controller\User;
 
 $security = new Security;
@@ -14,10 +16,12 @@ $user = new User;
 try {
     if (isset($_POST["fran"])) {
         $from = $security->franDecrypt(htmlspecialchars($_POST["fran"]));
-        if ($from == View::LOGIN->value) {
+
+        if ($from == Views::LOGIN->value) {
             $name = htmlspecialchars($_POST["name"]);
             $pass = htmlspecialchars($_POST["pass"]);
             $match = $user->loginDataMatch($name, $pass);
+
             if ($match) {
                 session_start();
                 $_SESSION["user_id"] = $match["user_id"];
@@ -32,18 +36,25 @@ try {
                         $rqsted_view = EMP_DEF_VIEW->value;
                         break;
                 }
-                header('Location: /index.php?view=' . $rqsted_view); //urlFrndly-> /' . $rqsted_view
-                die();
+
+                $resp['success'] = true;
+                $resp['location'] = "/$rqsted_view";
             } else {
-                $resp = 'error';
+                throw new CstmException(CstmExceptions::WRONG_LOGIN_DATA->msg(), CstmExceptions::WRONG_LOGIN_DATA->value);
             }
         } else {
-            throw new Exception('Invalid Fran key', 2);
+            throw new CstmException(CstmExceptions::INVALID_FRAN->msg(), CstmExceptions::INVALID_FRAN->value);
         }
     } else {
-        throw new Exception('No Fran key', 1);
+        throw new CstmException(CstmExceptions::NO_FRAN->msg(), CstmExceptions::NO_FRAN->value);
     }
+} catch (CstmException $e) {
+    $resp['success'] = false;
+    $resp['error'] = "CST{$e->getCode()}";
 } catch (Throwable $th) {
-    $resp = $th->getMessage();
+    $resp['success'] = false;
+    $resp['error'] = $th->getMessage() . $th->getFile() . $th->getLine();
 }
-header('Location: /index.php?view=' . View::LOGIN->value . '&resp=' . $resp); //urlFrndly-> /' . View::LOGIN->value . '&resp=' . $resp
+
+//header("Content-Type: application/json; charset=UTF-8");
+echo $json_resp = json_encode($resp);

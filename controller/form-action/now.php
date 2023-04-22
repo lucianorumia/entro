@@ -19,7 +19,7 @@ try {
 
     $from = $security->franDecrypt($rqst['fran']);
 
-    if ($from === View::NOW->value) {
+    if ($from === Views::NOW->value) {
         if(is_null($rqst['crtrUser'])) {
             $crtr_user = null;
         } else {
@@ -30,7 +30,7 @@ try {
             $location = null;
         } else {
             $location = filter_var($rqst['location'], FILTER_VALIDATE_INT, ['Options' => ['min_range' => 0, 'max_range' => 1]]);
-            if ($location === false) throw new Exception(CstmException::INPUT_VALIDATE_ERROR->msg() . ' - Line: ' . __LINE__, CstmException::INPUT_VALIDATE_ERROR->value);
+            if ($location === false) throw new Exception(CstmExceptions::INPUT_VALIDATE_ERROR->msg() . ' - Line: ' . __LINE__, CstmExceptions::INPUT_VALIDATE_ERROR->value);
         }
 
         $rows = $movement_ctrl->getUsersLastMovement($crtr_user, $location);
@@ -61,7 +61,7 @@ try {
         $resp['success'] = true;
         $resp['movements'] = $movements;
     } else {
-        throw new Exception(CstmException::INVALID_FRAN->msg(), CstmException::INVALID_FRAN->value);
+        throw new Exception(CstmExceptions::INVALID_FRAN->msg(), CstmExceptions::INVALID_FRAN->value);
     }
 
 } catch (Exception $ex) {

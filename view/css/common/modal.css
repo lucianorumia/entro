@@ -14,6 +14,11 @@
     row-gap: 1rem;
 }
 
+.modal--error {
+    border-color: var(--def-error-color);
+}
+
+
 .modal::backdrop {
     background-color: rgba(192, 192, 192, .5);
     backdrop-filter: blur(2px);
@@ -80,6 +85,10 @@
     background-color: transparent;
     border: 1px solid var(--def-accent-color);
     border-radius: 4px;
+}
+
+.modal--error .modal__button {
+    border-color: var(--def-error-color);
 }
 
 .modal__button:hover {

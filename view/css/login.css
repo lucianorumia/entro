@@ -1,3 +1,6 @@
+@import "/view/css/common/base.css";
+@import "/view/css/common/modal.css";
+
 .main-container {
     align-items: center;
     justify-content: center;

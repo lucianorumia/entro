@@ -27,7 +27,7 @@ $user_ctrl = new User_ctrl;
                 ?>
             </select>
         </label>
-        <input type="hidden" id="fran" value="<?php echo $security->franEncrypt(View::USERS->value); ?>">
+        <input type="hidden" id="fran" value="<?php echo $security->franEncrypt(Views::USERS->value); ?>">
     </div>
     <div class="filter-strip__action-buttons">
         <input type="button" id="apply-flt" class="filter-strip__button" value="Aplicar">

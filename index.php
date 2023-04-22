@@ -4,24 +4,39 @@ require "controller/security.php";
 
 use controller\Security;
 
+$security = new Security;
+
 session_start();
-if (isset($_SESSION["user_id"])) {
+if (isset($_SESSION['user_id'])) {
     $logged_in = true;
+
     if (isset($_GET["view"])){
-        $rqsted_view = $_GET["view"];
-        // falta filtrar: si la vista es 'login' o si es una vista no autorizada para el rol
-    } elseif ($_SESSION["role_id"] == 1) {
-        $rqsted_view = ADM_DEF_VIEW->value;
+        $rqsted_view = Views::tryFrom(strtolower($_GET["view"]));
+        
+        if ($rqsted_view === null) {
+            $include_view = Views::ERROR_404;
+        } elseif ($rqsted_view === Views::LOGIN) {
+            $include_view = Views::ERROR_825;
+        } elseif (($_SESSION['role_id'] === 1 && ! in_array($rqsted_view, ADM_VIEWS, true))
+            || ($_SESSION['role_id'] === 2 && ! in_array($rqsted_view, EMP_VIEWS, true))) {
+                $include_view = Views::ERROR_403;
+        } else {
+            $include_view = $rqsted_view;
+        }
     } else {
-        $rqsted_view = EMP_DEF_VIEW->value;
+        switch ($_SESSION["role_id"]) {
+            case 1:
+                $include_view = ADM_DEF_VIEW;
+                break;
+            case 2:
+                $include_view = EMP_DEF_VIEW;
+                break;
+        }
     }
 } else {
     $logged_in = false;
-    $rqsted_view = View::LOGIN->value;
+    $include_view = Views::LOGIN;
 }   
-
-$security = new Security;
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,60 +48,35 @@ $security = new Security;
     <link rel="icon" type="image/x-icon" href="/view/res/favicon_64.png">
     <?php
     // Fonts
-    include 'view/css/common/fonts.php'
-    ?>
-    <link rel="stylesheet" href="/view/css/base.css">
-    <?php
-    // Set CSS files for view
-    switch ($rqsted_view) {
-        case View::LOGIN->value:
-            $css_filename = 'login';
+    include 'view/common/fonts.php';
+
+    // Set CSS file
+    echo '<link rel="stylesheet" href="' . CSS_VIEW_PATH . $include_view->value . '".css">';
+    
+    // Set JS files
+    echo '<script defer type="module" src="' . JS_VIEW_PATH . 'template.js"></script>';
+
+    switch ($include_view) {
+        case Views::LOGIN:
+            $js_filename = Views::LOGIN->value;
             break;
-        case View::MOVEMENT->value:
-            $css_filename = 'movement';
+        case Views::MOVEMENT:
+            $js_filename = Views::MOVEMENT->value;
             break;
-        case View::INTRADAY->value:
-            $css_filename = 'intraday';
+        case Views::INTRADAY:
+            $js_filename = Views::INTRADAY->value;
             break;
-        case View::USERS->value:
-            $css_filename = 'users';
+        case Views::USERS:
+            $js_filename = Views::USERS->value;
             break;
-        case View::USER->value:
-            $css_filename = 'user';
+        case Views::PERIOD:
+            $js_filename = Views::PERIOD->value;
             break;
-        case View::NOW->value:
-            $css_filename = 'now';
-            break;
-        case View::PERIOD->value:
-            $css_filename = 'period';
-            break;
-    }
-    if (isset($css_filename)) echo "<link rel='stylesheet' href='/view/css/{$css_filename}.css'>";
-    ?>
-    <script defer type='module' src="/view/js/template.js"></script>
-    <?php
-    // Set JS files for view
-    switch ($rqsted_view) {
-        case View::LOGIN->value:
-            $js_filename = 'login';
-            break;
-        case View::MOVEMENT->value:
-            $js_filename = 'movement';
-            break;
-        case View::INTRADAY->value:
-            $js_filename = 'intraday';
-            break;
-        case View::USERS->value:
-            $js_filename = 'users';
-            break;
-        case View::PERIOD->value:
-            $js_filename = 'period';
-            break;
-        case View::NOW->value:
-            $js_filename = 'now';
+        case Views::NOW:
+            $js_filename = Views::NOW->value;
             break;
     }
-    if (isset($js_filename)) echo "<script defer type='module' src='/view/js/{$js_filename}.js'></script>";
+    if (isset($js_filename)) echo '<script defer type="module" src="' . JS_VIEW_PATH . $js_filename . '.js"></script>';
     ?>
 </head>
 <body>
@@ -101,7 +91,7 @@ $security = new Security;
                 <a class="top-nav__link lg--display-none" id="menu-btn">
                     <img class="top-nav__image" src="/view/res/menu_light_64.png" alt="menu">
                 </a>
-                HTML;
+HTML;
             }
             ?>
             <!-- <a class="top-nav__link">
@@ -114,11 +104,12 @@ $security = new Security;
             if ($logged_in) {
                 echo 'id="user-btn" ';
             } else {
-                echo 'href="/index.php?view=' . View::LOGIN->value . '" '; //urlFrndly-> echo 'href="/' . View::LOGIN->value . '"';
+                $login_view = Views::LOGIN->value;
+                echo "href='{$login_view}'";
             }
         ?>class="top-nav__link">
             <span><?php
-                echo $session_btn_cpt = $logged_in ? $_SESSION['user_name'] : 'Iniciar sesion'; 
+                echo $logged_in ? $_SESSION['user_name'] : 'Iniciar sesion'; 
             ?></span>
             <img class="top-nav__image" src="/view/res/usr_32.png" alt="login-img">
         </a>
@@ -147,9 +138,7 @@ $security = new Security;
                 }
 
                 foreach ($views_array as $view) {
-                    echo '<a class="navigator__link" '
-                        . 'href="/index.php?view=' . $view->value . '">'
-                        . $view->caption() . '</a>';
+                    echo '<a class="navigator__link" href="/' . $view->value . '">' . $view->caption() . '</a>';
                 }
             }
             ?>
@@ -157,41 +146,8 @@ $security = new Security;
     </aside>
     <div class="curtain sprclss--display-none lg--display-none" id="curtain"></div>
     <main class="main-container">
-        <?php
-            switch ($rqsted_view) {
-                case View::LOGIN->value:
-                    include View::LOGIN->path();
-                    break;
-                // ADMIN VIEWS
-                case View::NOW->value:
-                    include View::NOW->path();
-                    break;
-                case View::PERIOD->value:
-                    include View::PERIOD->path();
-                    break;
-                case View::ALL_PERIOD->value:
-                    include View::ALL_PERIOD->path();
-                    break;
-                // EMPLOYEE VIEWS
-                case View::MOVEMENT->value:
-                    include View::MOVEMENT->path();
-                    break;
-                case View::INTRADAY->value:
-                    include View::INTRADAY->path();
-                    break;
-                case View::ME_PERIOD->value:
-                    include View::ME_PERIOD->path();
-                    break;
-                case View::USERS->value:
-                    include View::USERS->path();
-                    break;
-                case View::USER->value:
-                    include View::USER->path();
-                    break;
-                default:
-                    echo 'Página inexistente';
-                    break;
-            }
+        <?php 
+        include ROOT_PATH . VIEW_PATH . $include_view->value . '.php';
         ?>
     </main>
     <footer>

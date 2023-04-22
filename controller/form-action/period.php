@@ -45,7 +45,7 @@ try {
         $resp['success'] = true;
         $resp['movements'] = $movements;
     } else {
-        throw new Exception(CstmException::INVALID_FRAN->msg(), CstmException::INVALID_FRAN->value);
+        throw new Exception(CstmExceptions::INVALID_FRAN->msg(), CstmExceptions::INVALID_FRAN->value);
     }
 
 } catch (Exception $ex) {

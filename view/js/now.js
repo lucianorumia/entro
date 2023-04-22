@@ -73,6 +73,7 @@ function getMovements() {
                 setModal(modal, MODAL_MODE.INFO, modalTitle, modalText, modalBtns);
 
                 modal.addEventListener('close', () => {
+                    locationInp.focus();
                     resetModal(modal);
                 }, {once: true});
 
