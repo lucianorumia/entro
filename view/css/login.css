@@ -1,44 +1,41 @@
 @import "/view/css/common/base.css";
+@import "/view/css/common/def-form.css";
+@import "/view/css/common/validations.css";
 @import "/view/css/common/modal.css";
 
 .main-container {
     align-items: center;
     justify-content: center;
+    background-image: url("/view/res/back-watch.jpg"); /*src: https://pxhere.com/es/photo/745292; date:20230424*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 #login-frm {
     max-width: 72%;
-    background-color: var(--ligth-transparent-gray);
-    padding: 1rem;
+    background-color: var(--def-dark-gray);
+    box-shadow: 0 0 24px 7px var(--def-dark-gray);
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
-.login-form__input, 
 .login-form__button {
-    font-size: 100%;
+    font-size: 1rem;
+    margin-top: .8rem;
     padding: .2em .5em;
-    border: none;
+    color: var(--def-light-gray);
+    background-color: transparent;
+    border: 1px solid var(--def-accent-color);
     border-radius: 4px;
 }
 
-.login-form__input {
+.def-form__input {
     max-width: 160px;
-    margin-bottom: .5rem;
-    background-color: var(--def-light-gray);
-}
-
-.login-form__button {
-    margin-top: .5rem;
-    color: var(--def-light-gray);
-    background-color: var(--def-back-gray);
 }
 
 .login-form__button:hover {
     background-color: var(--def-accent-color);
-}
-
-#pass-inp {
-    font-weight: 600;
 }

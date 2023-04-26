@@ -1,5 +1,6 @@
 import { CST_ERROR } from "/view/js/modules/errors";
 import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
+import { VLDT_TYPE, VltdField, vldtForm, vldtSetListeners } from "/view/js/modules/validations";
 
 const loginFrm = document.getElementById('login-frm');
 const userInp = document.getElementById('user-inp');
@@ -74,14 +75,17 @@ function loginRqst() {
     })
 }
 
-function formValidate() {
-    return true;
-}
+// Validations -----------------------------------------------------------------
+const userVldt = new VltdField(userInp, [{type: VLDT_TYPE.REQUIRED, text: 'Campo requerido'}], new Event('input'));
+const passVldt = new VltdField(passInp, [{type: VLDT_TYPE.REQUIRED, text: 'Campo requerido'}], new Event('input'));
+const vldtFieldsArray = [userVldt, passVldt];
 
 submitBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const vldt = formValidate();
-    if (vldt) {
+    const validForm = vldtForm(vldtFieldsArray);
+    if (validForm) {
         loginRqst();
+    } else {
+        vldtSetListeners(vldtFieldsArray);
     }
 });

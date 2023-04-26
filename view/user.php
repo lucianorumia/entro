@@ -39,25 +39,25 @@ if ($view_role === ViewRole::DETAIL) {
 <div class="def-form__container">
     <form class="def-form" id="user-form" method="post">
         <label class="def-form__label" for="name">Nombre</label>
-        <input class="def-form__field" id="name" name="name" type="text" autocomplete="off"<?php
+        <input class="def-form__input" id="name" name="name" type="text" autocomplete="off"<?php
             echo $view_role === ViewRole::DETAIL ? " value='{$user_data['name']}' disabled" : '';
         ?>>
         <label class="def-form__label" for="email">Email</label>
-        <input class="def-form__field" id="email" name="email" type="email" autocomplete="off"<?php
+        <input class="def-form__input" id="email" name="email" type="email" autocomplete="off"<?php
             echo $view_role === ViewRole::DETAIL ? " value='{$user_data['email']}' disabled" : '';
         ?>>
         <?php
         if ($view_role === ViewRole::CREATE || $view_role === ViewRole::UPDATE):
         ?>
         <label class="def-form__label" for="pass">Contraseña</label>
-        <input class="def-form__field" id="pass" name="pass" type="password" autocomplete="off">
+        <input class="def-form__input" id="pass" name="pass" type="password" autocomplete="off">
         <label class="def-form__label" for="match-pass">Confirmá la contraseña</label>
-        <input class="def-form__field" id="match-pass" type="password" autocomplete="off">
+        <input class="def-form__input" id="match-pass" type="password" autocomplete="off">
         <?php
         endif
         ?>
         <label class="def-form__label" for="role-id">Rol</label>
-        <select class="def-form__field" id="role-id" name="role-id"<?php
+        <select class="def-form__input" id="role-id" name="role-id"<?php
             echo $view_role === ViewRole::DETAIL ? ' disabled' : '';
         ?>>
             <?php

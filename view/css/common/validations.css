@@ -1,0 +1,8 @@
+.vldt__field--invalid {
+    border: 2px solid var(--def-error-color);
+}
+
+.vldt__caption {
+    font-size: .8rem;
+    color: var(--def-error-color);
+}

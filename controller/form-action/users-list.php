@@ -19,7 +19,7 @@ try {
 
     $from = $security->franDecrypt($rqst['fran']);
 
-    if ($from === View::USERS->value) {
+    if ($from === Views::USERS->value) {
         $name = $rqst['name'];
         $role_id = $rqst['roleId'];
 
@@ -38,7 +38,7 @@ try {
         $resp['success'] = true;
         $resp['users'] = $users;
     } else {
-        throw new Exception(CstmException::INVALID_FRAN->msg(), CstmException::INVALID_FRAN->value);
+        throw new Exception(CstmExceptions::INVALID_FRAN->msg(), CstmExceptions::INVALID_FRAN->value);
     }
 
 } catch (Exception $ex) {
