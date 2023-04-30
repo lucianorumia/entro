@@ -74,7 +74,7 @@ class User extends Connection {
     public function selectEmployees(): array|false {
         $sql = 'SELECT id, name '
             . 'FROM users '
-            . 'WHERE role_id = ' . USER_ROLE::EMPLEADO->value;
+            . 'WHERE role_id = ' . USER_ROLE::EMPLOYEE->value;
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
         $resp = $stmt->fetchAll(PDO::FETCH_ASSOC);

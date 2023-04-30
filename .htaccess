@@ -1,14 +1,12 @@
 # Indexes
 Options -Indexes
 
-# Error Files
-#ErrorDocument 403 /index.php?view=error-403
-#ErrorDocument 404 /index.php?view=error-404
-
-# Set php.ini
-#php_flag
-#php_value upload_max_filesize 5M
-
 # Rewrite Rules
 RewriteEngine On
-RewriteRule ^([a-z-]+)$ index.php?view=$1 [NC]
+RewriteRule ^([a-z-]+)$             index.php?view=$1 [NC]
+RewriteRule ^([a-z-]+)/([0-9a-f]+)$ index.php?view=$1&id=$2 [NC]
+RewriteRule ^([a-z-]+)(/(new))?$    index.php?view=$1&act=$3 [NC]
+
+# Error Files
+ErrorDocument 403   /index.php?view=error&id=403
+ErrorDocument 404   /index.php?view=error&id=404

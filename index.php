@@ -7,6 +7,10 @@ use controller\Security;
 $security = new Security;
 
 session_start();
+
+$url_id = $_GET['id'] ?? null;
+$url_act = $_GET['act'] ?? null;
+
 if (isset($_SESSION['user_id'])) {
     $logged_in = true;
 
@@ -14,14 +18,16 @@ if (isset($_SESSION['user_id'])) {
         $rqsted_view = Views::tryFrom(strtolower($_GET["view"]));
         
         if ($rqsted_view === null) {
-            $include_view = Views::ERROR_404;
+            $include_view = Views::ERROR;
+            $url_id = '404';
         } elseif ($rqsted_view === Views::LOGIN) {
-            $include_view = Views::ERROR_825;
-        } elseif (($_SESSION['role_id'] === 1 && ! in_array($rqsted_view, ADM_VIEWS, true))
-            || ($_SESSION['role_id'] === 2 && ! in_array($rqsted_view, EMP_VIEWS, true))) {
-                $include_view = Views::ERROR_403;
-        } else {
+            $include_view = Views::ERROR;
+            $url_id = '825';
+        } elseif (in_array($_SESSION['role_id'], $rqsted_view->autRole())) {
             $include_view = $rqsted_view;
+        } else {
+            $include_view = Views::ERROR;
+            $url_id = '403';
         }
     } else {
         switch ($_SESSION["role_id"]) {
@@ -36,7 +42,8 @@ if (isset($_SESSION['user_id'])) {
 } else {
     $logged_in = false;
     $include_view = Views::LOGIN;
-}   
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -51,35 +58,31 @@ if (isset($_SESSION['user_id'])) {
     include 'view/common/fonts.php';
 
     // Set CSS file
-    echo '<link rel="stylesheet" href="' . CSS_VIEW_PATH . $include_view->value . '".css">';
+    if ($include_view === Views::USERS) {
+        if (isset($url_id)) $css_filename = $include_view->value . '-detail';
+        elseif ($url_act === 'new') $css_filename = $include_view->value . '-new';
+        else $css_filename = $include_view->value;
+    } else {
+        $css_filename = $include_view->value;
+    }
+    echo '<link rel="stylesheet" href="' . CSS_VIEW_PATH . $css_filename . '.css">';
     
     // Set JS files
     echo '<script defer type="module" src="' . JS_VIEW_PATH . 'template.js"></script>';
 
-    switch ($include_view) {
-        case Views::LOGIN:
-            $js_filename = Views::LOGIN->value;
-            break;
-        case Views::MOVEMENT:
-            $js_filename = Views::MOVEMENT->value;
-            break;
-        case Views::INTRADAY:
-            $js_filename = Views::INTRADAY->value;
-            break;
-        case Views::USERS:
-            $js_filename = Views::USERS->value;
-            break;
-        case Views::PERIOD:
-            $js_filename = Views::PERIOD->value;
-            break;
-        case Views::NOW:
-            $js_filename = Views::NOW->value;
-            break;
+    if ($include_view === Views::USERS) {
+        if (isset($url_id)) $js_filename = $include_view->value . '-detail';
+        elseif ($url_act === 'new') $js_filename = $include_view->value . '-new';
+        else $js_filename = $include_view->value;
+    } else {
+        $js_filename = $include_view->value;
     }
-    if (isset($js_filename)) echo '<script defer type="module" src="' . JS_VIEW_PATH . $js_filename . '.js"></script>';
+    echo '<script defer type="module" src="' . JS_VIEW_PATH . $js_filename . '.js"></script>';
     ?>
 </head>
 <body>
+    <?php
+    ?>
     <noscript>
         Habilit&aacute; JavaScript para ejecutar correctamente la aplicaci&oacute;n.
     </noscript>
@@ -100,20 +103,25 @@ HTML;
             </a> -->
             <!-- <a href="#" class="top-nav__link top-nav--expanded">SOLUCIONES</a> -->
         </div>
-        <a <?php
+        <?php
+        if ($include_view !== Views::LOGIN) {
+            echo '<a';
+
             if ($logged_in) {
-                echo 'id="user-btn" ';
+                echo ' id="user-btn"';
             } else {
                 $login_view = Views::LOGIN->value;
-                echo "href='{$login_view}'";
+                echo " href='/{$login_view}'";
             }
-        ?>class="top-nav__link">
-            <span><?php
-                echo $logged_in ? $_SESSION['user_name'] : 'Iniciar sesion'; 
-            ?></span>
-            <img class="top-nav__image" src="/view/res/usr_32.png" alt="login-img">
-        </a>
-        <?php
+
+            echo ' class="top-nav__link">'
+                . '<span>';
+            echo $logged_in ? $_SESSION['user_name'] : 'Iniciar sesion';
+            echo '</span>'
+                . '<img class="top-nav__image" src="/view/res/usr_32.png" alt="login-img">'
+                . '</a>';    
+        }
+
         if ($logged_in) {
             echo <<<HTML
             <div id="user-menu" class="sprclss--display-none">
@@ -147,7 +155,13 @@ HTML;
     <div class="curtain sprclss--display-none lg--display-none" id="curtain"></div>
     <main class="main-container">
         <?php 
-        include ROOT_PATH . VIEW_PATH . $include_view->value . '.php';
+        if ($include_view === Views::USERS) {
+            if (isset($url_id)) include ROOT_PATH . VIEW_PATH . $include_view->value . '-detail.php';
+            elseif ($url_act === 'new') include ROOT_PATH . VIEW_PATH . $include_view->value . '-new.php';
+            else include ROOT_PATH . VIEW_PATH . $include_view->value . '.php';
+        } else {
+            include ROOT_PATH . VIEW_PATH . $include_view->value . '.php';
+        }
         ?>
     </main>
     <footer>

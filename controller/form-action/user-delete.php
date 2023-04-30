@@ -14,24 +14,24 @@ $user = new User;
 try {
     if (isset($_POST['fran'])) {
         $from = $security->franDecrypt($_POST['fran']);
-        if ($from == View::USER->value) {
+        if ($from == Views::USER->value) {
             $id = $security->aideDecrypt(htmlspecialchars($_POST['aide']));
-            if (! $id) throw new Exception(CstmException::INVALID_AIDE->msg() . ' - Line: ' . __LINE__, CstmException::INVALID_AIDE->value);
+            if (! $id) throw new Exception(CstmExceptions::INVALID_AIDE->msg() . ' - Line: ' . __LINE__, CstmExceptions::INVALID_AIDE->value);
             
             $exct = $user->deleteUser($id);
             if ($exct) {
-                header('Location: /index.php?view=' . View::USERS->value . '&succ=true&from=create');
+                header('Location: /index.php?view=' . Views::USERS->value . '&succ=true&from=create');
                 die();
             } else {
                 $resp = 'error';
             }
         } else {
-            throw new Exception(CstmException::INVALID_FRAN->msg(), CstmException::INVALID_FRAN->value);
+            throw new Exception(CstmExceptions::INVALID_FRAN->msg(), CstmExceptions::INVALID_FRAN->value);
         }
     } else {
-        throw new Exception(CstmException::NO_FRAN->msg(), CstmException::NO_FRAN->value);
+        throw new Exception(CstmExceptions::NO_FRAN->msg(), CstmExceptions::NO_FRAN->value);
     }
 } catch (Throwable $th) {
     $resp = $th->getMessage();
 }
-header('Location: /index.php?view=' . View::USERS->value . '&succ=false&from=create&error=' . $resp);
+header('Location: /index.php?view=' . Views::USERS->value . '&succ=false&from=create&error=' . $resp);

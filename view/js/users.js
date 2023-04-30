@@ -48,7 +48,7 @@ function getUsers() {
                         <td>${user.role}</td>
                         <td>${user.email}</td>
                         <td>
-                            <a class="def-table__plus-btn" href="/index.php?view=user&id=${user.key}">+</a>
+                            <a class="def-table__plus-btn" href="/users/${user.key}">+</a>
                         </td>`;
                     
                     newElement.classList.add('def-table__body-row')

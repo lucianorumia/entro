@@ -26,7 +26,7 @@ try {
     $resp_obj = new stdClass();
 
     switch ($from) {
-        case View::MOVEMENT->value:
+        case Views::MOVEMENT->value:
             $user_id = $security->aideDecrypt($rqst_obj->userKey);
             
             // Pass verify

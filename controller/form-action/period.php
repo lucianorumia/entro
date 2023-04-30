@@ -19,7 +19,7 @@ try {
 
     $from = $security->franDecrypt($rqst['fran']);
 
-    if ($from === View::PERIOD->value) {
+    if ($from === Views::PERIOD->value) {
         $user_id = $security->aideDecrypt($rqst['userKey']);
         $datetime_from = new DateTime($rqst['dateFrom']);
         $datetime_from->setTimezone(UTC_TIMEZONE);

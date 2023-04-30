@@ -49,6 +49,6 @@ $user_ctrl = new User_ctrl;
     </table>
 </div>
 <div class="action-bar">
-    <button class="action-bar__button"><a class="spclss--no-effects-font" href="/index.php?view=user">Nuevo usuario</a></button>
+    <button class="action-bar__button"><a class="spclss--no-effects-font" href="/users/new">Nuevo usuario</a></button>
     <div class="action-bar__circle"></div>
 </div>

@@ -14,17 +14,17 @@ $user = new User;
 try {
     if (isset($_POST['fran'])) {
         $from = $security->franDecrypt($_POST['fran']);
-        if ($from == View::USER->value) {
+        if ($from == Views::USERS->value) {
             $name = htmlspecialchars($_POST['name']);
             $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-            if (! $email) throw new Exception(CstmException::INPUT_VALIDATE_ERROR->msg() . ' - Line: ' . __LINE__, CstmException::INPUT_VALIDATE_ERROR->value);
+            if (! $email) throw new Exception(CstmExceptions::INPUT_VALIDATE_ERROR->msg() . ' - Line: ' . __LINE__, CstmExceptions::INPUT_VALIDATE_ERROR->value);
             $pass = htmlspecialchars($_POST['pass']);
             $role_id = filter_var((int) $_POST['role-id'], FILTER_VALIDATE_INT);
-            if (! $role_id) throw new Exception(CstmException::INPUT_VALIDATE_ERROR->msg() . ' - Line: ' . __LINE__, CstmException::INPUT_VALIDATE_ERROR->value);
+            if (! $role_id) throw new Exception(CstmExceptions::INPUT_VALIDATE_ERROR->msg() . ' - Line: ' . __LINE__, CstmExceptions::INPUT_VALIDATE_ERROR->value);
             
             $exct = $user->createUser($name, $pass, $email, $role_id);
             if ($exct) {
-                header('Location: /index.php?view=' . View::USERS->value . '&succ=true&from=create');
+                header('Location: /index.php?view=' . Views::USERS->value . '&succ=true&from=create');
                 die();
             } else {
                 $resp = 'error';
@@ -33,9 +33,9 @@ try {
             throw new Exception('Invalid Fran key', 2);
         }
     } else {
-        throw new Exception(CstmException::NO_FRAN->msg(), CstmException::NO_FRAN->value);
+        throw new Exception(CstmExceptions::NO_FRAN->msg(), CstmExceptions::NO_FRAN->value);
     }
 } catch (Throwable $th) {
     $resp = $th->getMessage();
 }
-header('Location: /index.php?view=' . View::USERS->value . '&succ=false&from=create&error=' . $resp);
+header('Location: /index.php?view=' . Views::USERS->value . '&succ=false&from=create&error=' . $resp);

@@ -6,11 +6,11 @@ require 'model/user.php';
 use controller\User as User_ctrl;
 
 $user_ctrl = new User_ctrl;
-$get_id = $_GET['id'] ?? null;
+$get_key = $_GET['key'] ?? null;
 $get_act = $_GET['act'] ?? null;
 
 // View role
-if ($get_id) {
+if ($get_key) {
     $view_role = ViewRole::DETAIL;
 } else {
     $view_role = ViewRole::CREATE;
@@ -31,7 +31,7 @@ echo "<h1 class='page-title'>{$page_title}</h1>";
 
 // Inputs values
 if ($view_role === ViewRole::DETAIL) {
-    $user_id = $security->aideDecrypt($get_id); //pndt add error handler
+    $user_id = $security->aideDecrypt($get_key); //pndt add error handler
     $user_data = $user_ctrl->getUserById($user_id); //pndt add error handler
 } 
 
@@ -75,8 +75,8 @@ if ($view_role === ViewRole::DETAIL) {
             }
             ?>
         </select>
-        <input type="hidden" id="fran" name="fran" value="<?php echo $security->franEncrypt(Views::USER->value); ?>">
-        <input type="hidden" id="aide" name="aide" value="<?php echo $get_id; ?>">
+        <input type="hidden" id="fran" name="fran" value="<?php echo $security->franEncrypt(Views::USERS->value); ?>">
+        <input type="hidden" id="aide" name="aide" value="<?php echo $get_key; ?>">
     </form>
 </div>
 <div class="action-bar">
