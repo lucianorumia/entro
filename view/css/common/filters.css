@@ -19,7 +19,7 @@
     color: var(--def-back-gray);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 .filter-strip__label {

@@ -2,6 +2,7 @@
 @import "/view/css/common/filters.css";
 @import "/view/css/common/def-table.css";
 @import "/view/css/common/action-bar.css";
+@import "/view/css/common/validations.css";
 @import "/view/css/common/modal.css";
 
 .def-table__container {

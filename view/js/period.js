@@ -1,4 +1,5 @@
 import { Ymd, His, msToHis, msToDecHs, sameDay, MILISECONDS } from "./modules/dates.js";
+import { VLDT_TYPE, VltdField, vldtForm, vldtSetListeners, vldtUnset } from "/view/js/modules/validations";
 import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
 
 const filterForm = document.getElementById('filter-form');
@@ -21,6 +22,91 @@ let prePartial;
 
 // let applyFiltersFlag = false;
 // let resetFiltersFlag = true;
+
+// Validations -----------------------------------------------------------------
+const userVldt = new VltdField(userInp, [{type: VLDT_TYPE.REQUIRED, text: 'Campo requerido'}], new Event('input'));
+const vldtFieldsArray = [userVldt];
+
+    // Local Vldtns
+        // User
+const userEventHandler = () => {
+    if (userList.includes(userInp.value)
+        || userInp.value === '') {
+        userInp.classList.remove('vldt__field--invalid');
+        userInp.parentNode.querySelector('.vldt__caption').textContent = '';
+        return true;
+    } else {
+        userInp.classList.add('vldt__field--invalid');
+        userInp.parentNode.querySelector('.vldt__caption').textContent = 'Usuario inexistente';
+        return false;
+    }
+}
+
+userInp.addEventListener('blur', (e) => {
+    if (userEventHandler()) {
+        userInp.removeEventListener('input', userEventHandler);
+    } else {
+        e.target.select();
+        userInp.addEventListener('input', userEventHandler);
+    }
+});
+
+        // Dates
+const dateRegExp = /\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
+
+const dateEventHandler = (e) => {
+    if (! dateRegExp.test(e.target.value)) {
+        e.target.classList.add('vldt__field--invalid');
+        e.target.parentNode.querySelector('.vldt__caption').textContent = 'Ingresá fecha válida';
+        return false;
+    } else if (dateFromInp.value > dateToInp.value) {
+        e.target.classList.add('vldt__field--invalid');
+        e.target.parentNode.querySelector('.vldt__caption').textContent = 'La fecha desde debe ser anterior o igual a la fecha Hasta';
+        return false;
+    } else {
+        e.target.classList.remove('vldt__field--invalid');
+        e.target.parentNode.querySelector('.vldt__caption').textContent = '';
+        return true;
+    }
+}
+
+dateFromInp.addEventListener('blur', (e) => {
+    const vldtDateFrom = dateEventHandler(e); 
+    if (vldtDateFrom) {
+        dateFromInp.removeEventListener('input', dateEventHandler.bind(e));
+    } else {
+        e.target.select();
+        dateFromInp.addEventListener('input', dateEventHandler.bind(e));
+    }
+});
+
+dateToInp.addEventListener('blur', (e) => {
+    const vldtDateTo = dateEventHandler(e); 
+    if (vldtDateTo) {
+        dateToInp.removeEventListener('input', dateEventHandler.bind(e));
+    } else {
+        e.target.select();
+        dateToInp.addEventListener('input', dateEventHandler.bind(e));
+    }
+});
+
+const localVldt = () => {
+    if (userList.includes(userInp.value)
+        &&dateRegExp.test(dateFromInp.value)
+        && dateRegExp.test(dateToInp.value)
+        && dateFromInp.value <= dateToInp.value) return true;
+    else return false;
+}
+
+const localVldtUnset = () => {
+    const localVldtFields = [userInp, dateFromInp, dateToInp];
+    localVldtFields.forEach(field => {
+        field.classList.remove('vldt__field--invalid');
+        field.parentNode.querySelector('.vldt__caption').textContent = '';
+    });
+}
+
+// Validations end -------------------------------------------------------------
 
 function addTableRow(markModifier, date, time, partial, accum, movementKey) {
     const newElement = document.createElement('tr');
@@ -206,8 +292,17 @@ function getMovements() {
     })
 }
 
-applyFilters.addEventListener('click', getMovements);
+applyFilters.addEventListener('click', () => {
+    const validForm = (vldtForm(vldtFieldsArray) && localVldt());
+    if (validForm) {
+        getMovements();
+    } else {
+        vldtSetListeners(vldtFieldsArray);
+    }
+});
 
 resetFilters.addEventListener('click', () => {
+    vldtUnset(vldtFieldsArray);
+    localVldtUnset();
     filterForm.reset();
 });

@@ -51,6 +51,11 @@ class VltdField {
     unsetEventListener() {
         this.htmlCtrl.removeEventListener(this.event.type, this.boundEventHandler);
     }
+
+    unsetVldt() {
+        this.htmlCtrl.classList.remove('vldt__field--invalid');
+        this.htmlCtrl.parentNode.querySelector('.vldt__caption').textContent = '';
+    }
 }
 
 const vldtForm = (vldtFieldsArray) => {
@@ -71,11 +76,21 @@ const vldtSetListeners = (vldtFieldsArray) => {
 
 }
 
+const vldtUnset = (vldtFieldsArray) => {
+    
+    vldtFieldsArray.forEach(field => {
+        field.unsetVldt();
+        field.unsetEventListener();
+    });
+
+}
+
 export {
     VltdField,
     VLDT_TYPE,
     vldtForm,
     vldtSetListeners,
+    vldtUnset,
 }
 
 /*
