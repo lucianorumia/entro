@@ -28,6 +28,14 @@ class VltdField {
                             break validationsBlock;
                         }
                         break;
+                    case VLDT_TYPE.REG_EXP:
+                        if (! this.validations[i].regExp.test(this.htmlCtrl.value.trim())) {
+                            state = false;
+                            this.htmlCtrl.classList.add('vldt__field--invalid');
+                            this.htmlCtrl.parentNode.querySelector('.vldt__caption').textContent = this.validations[i].text;
+                            break validationsBlock;
+                        }
+                        break;
                 }
             }
         }

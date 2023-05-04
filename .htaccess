@@ -3,9 +3,8 @@ Options -Indexes
 
 # Rewrite Rules
 RewriteEngine On
-RewriteRule ^([a-z-]+)$             index.php?view=$1 [NC]
+RewriteRule ^([a-z-]+)(/(new))?$    index.php?view=$1&act=$3 [NC,QSA]
 RewriteRule ^([a-z-]+)/([0-9a-f]+)$ index.php?view=$1&id=$2 [NC]
-RewriteRule ^([a-z-]+)(/(new))?$    index.php?view=$1&act=$3 [NC]
 
 # Error Files
 ErrorDocument 403   /index.php?view=error&id=403

@@ -24,7 +24,7 @@ try {
             
             $exct = $user->createUser($name, $pass, $email, $role_id);
             if ($exct) {
-                header('Location: /index.php?view=' . Views::USERS->value . '&succ=true&from=create');
+                header('Location: /' . Views::USERS->value . '?from=new&succ=true');
                 die();
             } else {
                 $resp = 'error';
@@ -38,4 +38,4 @@ try {
 } catch (Throwable $th) {
     $resp = $th->getMessage();
 }
-header('Location: /index.php?view=' . Views::USERS->value . '&succ=false&from=create&error=' . $resp);
+header('Location: /' . Views::USERS->value . '?from=new&succ=false&error=' . $resp);

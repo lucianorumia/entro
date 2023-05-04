@@ -14,13 +14,13 @@ $user = new User;
 try {
     if (isset($_POST['fran'])) {
         $from = $security->franDecrypt($_POST['fran']);
-        if ($from == Views::USER->value) {
+        if ($from == Views::USERS->value) {
             $id = $security->aideDecrypt(htmlspecialchars($_POST['aide']));
             if (! $id) throw new Exception(CstmExceptions::INVALID_AIDE->msg() . ' - Line: ' . __LINE__, CstmExceptions::INVALID_AIDE->value);
             
             $exct = $user->deleteUser($id);
             if ($exct) {
-                header('Location: /index.php?view=' . Views::USERS->value . '&succ=true&from=create');
+                header('Location: /' . Views::USERS->value . '?from=delete&succ=true');
                 die();
             } else {
                 $resp = 'error';
@@ -34,4 +34,4 @@ try {
 } catch (Throwable $th) {
     $resp = $th->getMessage();
 }
-header('Location: /index.php?view=' . Views::USERS->value . '&succ=false&from=create&error=' . $resp);
+header('Location: /' . Views::USERS->value . '?from=delete&succ=false&error=' . $resp);

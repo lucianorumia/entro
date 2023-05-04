@@ -52,3 +52,4 @@ $user_ctrl = new User_ctrl;
     <button class="action-bar__button"><a class="spclss--no-effects-font" href="/users/new">Nuevo usuario</a></button>
     <div class="action-bar__circle"></div>
 </div>
+<?php

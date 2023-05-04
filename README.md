@@ -9,7 +9,7 @@ Está diseñada para registrar los ingresos/egresos de empleados, mediante una i
 - OOP
 - acceso a MySQL DB con PDO
 - uso de AJAX (Fetch API)
-- friendly URL -en constucción-
+- friendly URL
 - diseño responsivo -en construcción-
 
 Contacto: luciano@rumia.uno

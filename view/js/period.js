@@ -92,7 +92,7 @@ dateToInp.addEventListener('blur', (e) => {
 
 const localVldt = () => {
     if (userList.includes(userInp.value)
-        &&dateRegExp.test(dateFromInp.value)
+        && dateRegExp.test(dateFromInp.value)
         && dateRegExp.test(dateToInp.value)
         && dateFromInp.value <= dateToInp.value) return true;
     else return false;

@@ -2,6 +2,7 @@
 @import "/view/css/common/def-form.css";
 @import "/view/css/common/action-bar.css";
 @import "/view/css/common/modal.css";
+@import "/view/css/common/validations.css";
 
 .def-form__container {
     flex: 1;
@@ -11,6 +12,7 @@
 
 .def-form {
     margin: auto;
+    padding-top: 1rem;
 }
 
 #email {
