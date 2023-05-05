@@ -84,19 +84,36 @@ body {
     height: 24px;
 }
 
-#user-btn {
+#user-menu {
     position: relative;
+    width: 200px;
 }
 
-#user-menu {
+#user-btn {
+    justify-content: flex-end;
+}
+
+#user-options {
     position: absolute;
-    right: 0;
+    z-index: 1;
+    visibility: hidden;
     top: var(--top-nav-height);
+    right: 0;
+    width: inherit;
     background-color: var(--def-dark-gray);
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     padding: 1rem;
+}
+
+#user-menu:hover #user-options {
+    visibility: visible;
+}
+
+#user-menu:hover #user-btn {
+    background-color: var(--def-back-gray);
+    border-bottom: .3rem solid var(--def-accent-color);
 }
 
 #logout-btn {

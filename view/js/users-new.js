@@ -1,5 +1,5 @@
-import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
-import { VLDT_TYPE, VltdField, vldtForm, vldtSetListeners, vldtUnset } from "/view/js/modules/validations";
+import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal.js";
+import { VLDT_TYPE, VltdField, vldtForm, vldtSetListeners, vldtUnset } from "/view/js/modules/validations.js";
 
 const userForm = document.getElementById('user-form');
 const nameInp = document.getElementById('name');

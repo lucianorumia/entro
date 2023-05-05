@@ -1,4 +1,4 @@
-import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
+import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal.js";
 
 const fltForm = document.getElementById('flt-form')
 const nameInp = document.getElementById('name');

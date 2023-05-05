@@ -1,0 +1,74 @@
+@import "/view/css/common/base.css";
+@import "/view/css/common/filters.css";
+@import "/view/css/common/def-table.css";
+@import "/view/css/common/action-bar.css";
+@import "/view/css/common/validations.css";
+@import "/view/css/common/modal.css";
+
+.def-table__container {
+    flex: 1;
+    overflow: auto;
+    /* display: flex; */
+}
+
+#user-period-table {
+    /* margin: auto auto; */
+    visibility: hidden;
+}
+
+.def-table__row-mark {
+    width: 1em;
+    color: var(--def-light-gray);
+    height: 1.4em;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.def-table__row-mark--entry {
+    background-color: var(--def-entry-color);
+}
+
+.def-table__row-mark--entry::after {
+    content: "E";
+}
+
+.def-table__row-mark--exit {
+    background-color: var(--def-exit-color);
+}
+
+.def-table__row-mark--exit::after {
+    content: "S";
+}
+
+.def-table__row-mark--start-of-day {
+    background-color: var(--def-entry-color);
+}
+
+.def-table__row-mark--end-of-day {
+    background-color: var(--def-exit-color);
+}
+
+.def-table__row-mark--start-of-day::after,
+.def-table__row-mark--end-of-day::after {
+    content: "!";
+}
+
+.def-table__row-mark--inside-now {
+    background-color: var(--def-exit-color);
+}
+
+.def-table__row-mark--inside-now::after {
+    content: "...";
+}
+
+.def-table td:nth-child(2),
+.def-table td:nth-child(3) {
+    text-align: center;
+}
+
+.def-table td:nth-child(4),
+.def-table td:nth-child(5) {
+    text-align: right;
+}

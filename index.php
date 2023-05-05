@@ -86,52 +86,7 @@ if (isset($_SESSION['user_id'])) {
     <noscript>
         Habilit&aacute; JavaScript para ejecutar correctamente la aplicaci&oacute;n.
     </noscript>
-    <nav class="top-nav">
-        <div class="top-nav__left-links">
-            <?php
-            if ($logged_in) {
-                echo <<<HTML
-                <a class="top-nav__link lg--display-none" id="menu-btn">
-                    <img class="top-nav__image" src="/view/res/menu_light_64.png" alt="menu">
-                </a>
-HTML;
-            }
-            ?>
-            <!-- <a class="top-nav__link">
-                <img class="top-nav__image" src="/view/res/home_light_64.png" alt="home">
-                <span class="sm--display-none">&nbsp; HOME</span>
-            </a> -->
-            <!-- <a href="#" class="top-nav__link top-nav--expanded">SOLUCIONES</a> -->
-        </div>
-        <?php
-        if ($include_view !== Views::LOGIN) {
-            echo '<a';
-
-            if ($logged_in) {
-                echo ' id="user-btn"';
-            } else {
-                $login_view = Views::LOGIN->value;
-                echo " href='/{$login_view}'";
-            }
-
-            echo ' class="top-nav__link">'
-                . '<span>';
-            echo $logged_in ? $_SESSION['user_name'] : 'Iniciar sesion';
-            echo '</span>'
-                . '<img class="top-nav__image" src="/view/res/usr_32.png" alt="login-img">'
-                . '</a>';    
-        }
-
-        if ($logged_in) {
-            echo <<<HTML
-            <div id="user-menu" class="sprclss--display-none">
-                <!-- <a>Cambiar contraseña</a> -->
-                <a id="logout-btn">Cerrar sesión</a>
-            </div>
-            HTML; 
-        }
-        ?>    
-    </nav>
+    <?php include ROOT_PATH . VIEW_PATH . 'common/top-nav.php' ?>
     <aside class="navigator">
         <ul id="navigator-list" class="navigator__list">
             <?php

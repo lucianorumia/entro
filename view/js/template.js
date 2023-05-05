@@ -1,4 +1,4 @@
-import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
+import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal.js";
 
 const menuBtn = document.getElementById('menu-btn');
 const curtain = document.querySelector('.curtain');
@@ -12,9 +12,9 @@ if (userBtn !== null) {
     menuBtn.onclick = () => toggleNavigator();
 }
 
-if (userBtn !== null) {
-    userBtn.onclick = () => toggleUserMenu();
-}
+// if (userBtn !== null) {
+//     userBtn.onclick = () => toggleUserMenu();
+// }
 
 if (logoutBtn !== null) {
     logoutBtn.addEventListener("click", () => {

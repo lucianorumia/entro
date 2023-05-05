@@ -1,6 +1,6 @@
-import { CST_ERROR } from "/view/js/modules/errors";
-import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal";
-import { VLDT_TYPE, VltdField, vldtForm, vldtSetListeners } from "/view/js/modules/validations";
+import { CST_ERROR } from "/view/js/modules/errors.js";
+import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal.js";
+import { VLDT_TYPE, VltdField, vldtForm, vldtSetListeners } from "/view/js/modules/validations.js";
 
 const loginFrm = document.getElementById('login-frm');
 const userInp = document.getElementById('user-inp');

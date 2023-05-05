@@ -3,7 +3,7 @@ import { VLDT_TYPE, VltdField, vldtForm, vldtSetListeners, vldtUnset } from "/vi
 import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal.js";
 
 const filterForm = document.getElementById('filter-form');
-const userInp = document.getElementById('user');
+// const userInp = document.getElementById('user');
 const dateFromInp = document.getElementById('date-from');
 const dateToInp = document.getElementById('date-to');
 const applyFilters = document.getElementById('apply-flt');
@@ -20,38 +20,7 @@ const modal = document.querySelector('.modal');
 let preAccum;
 let prePartial;
 
-// let applyFiltersFlag = false;
-// let resetFiltersFlag = true;
-
 // Validations -----------------------------------------------------------------
-const userVldt = new VltdField(userInp, [{type: VLDT_TYPE.REQUIRED, text: 'Campo requerido'}], new Event('input'));
-const vldtFieldsArray = [userVldt];
-
-    // Local Vldtns
-        // User
-const userEventHandler = () => {
-    if (userList.includes(userInp.value)
-        || userInp.value === '') {
-        userInp.classList.remove('vldt__field--invalid');
-        userInp.parentNode.querySelector('.vldt__caption').textContent = '';
-        return true;
-    } else {
-        userInp.classList.add('vldt__field--invalid');
-        userInp.parentNode.querySelector('.vldt__caption').textContent = 'Usuario inexistente';
-        return false;
-    }
-}
-
-userInp.addEventListener('blur', (e) => {
-    if (userEventHandler()) {
-        userInp.removeEventListener('input', userEventHandler);
-    } else {
-        e.target.select();
-        userInp.addEventListener('input', userEventHandler);
-    }
-});
-
-        // Dates
 const dateRegExp = /\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
 
 const dateEventHandler = (e) => {
@@ -91,15 +60,14 @@ dateToInp.addEventListener('blur', (e) => {
 });
 
 const localVldt = () => {
-    if (userList.includes(userInp.value)
-        && dateRegExp.test(dateFromInp.value)
+    if (dateRegExp.test(dateFromInp.value)
         && dateRegExp.test(dateToInp.value)
         && dateFromInp.value <= dateToInp.value) return true;
     else return false;
 }
 
 const localVldtUnset = () => {
-    const localVldtFields = [userInp, dateFromInp, dateToInp];
+    const localVldtFields = [dateFromInp, dateToInp];
     localVldtFields.forEach(field => {
         field.classList.remove('vldt__field--invalid');
         field.parentNode.querySelector('.vldt__caption').textContent = '';
@@ -148,10 +116,10 @@ function updateTimes() {
 
 function getMovements() {
     const fran = document.getElementById('fran').value;
-    const userKey = document.querySelector('#users-list option[value="' + userInp.value + '"]').getAttribute('data-user-key');
+    const userKey = document.getElementById('user-key').value;
     const dateFrom = dateFromInp.value;
     const dateTo = dateToInp.value;
-    const url = '/controller/form-action/period.php'
+    const url = '/controller/form-action/me-period.php'
 
     const dataToSend = {
         fran: fran,
@@ -293,16 +261,13 @@ function getMovements() {
 }
 
 applyFilters.addEventListener('click', () => {
-    const validForm = (vldtForm(vldtFieldsArray) && localVldt());
+    const validForm = localVldt();
     if (validForm) {
         getMovements();
-    } else {
-        vldtSetListeners(vldtFieldsArray);
     }
 });
 
 resetFilters.addEventListener('click', () => {
-    vldtUnset(vldtFieldsArray);
     localVldtUnset();
     filterForm.reset();
 });
