@@ -2,8 +2,10 @@
     display: none;
 }
 
-.modal {
+.modal,
+.pseudo-modal {
     margin: auto;
+    max-width: 80%;
     padding: 2rem 2rem 1.5rem;
     color: var(--def-light-gray);
     background-color: var(--def-dark-gray);

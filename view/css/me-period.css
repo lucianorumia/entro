@@ -5,6 +5,18 @@
 @import "/view/css/common/validations.css";
 @import "/view/css/common/modal.css";
 
+.filter-strip__input {
+    width: 12ch;
+}
+
+.filter-strip__button {
+    width: 50%
+}
+
+.filter-strip__action-buttons {
+    justify-content: center;
+}
+
 .def-table__container {
     flex: 1;
     overflow: auto;
@@ -71,4 +83,20 @@
 .def-table td:nth-child(4),
 .def-table td:nth-child(5) {
     text-align: right;
+}
+
+.stat-row {
+    color: var(--def-accent-color);
+    text-align: center;
+    font-size: .9em;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.stat-row:hover {
+    color: var(--def-light-gray);
+}
+
+.stat-row span {
+    font-weight: inherit;
 }

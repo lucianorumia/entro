@@ -53,7 +53,7 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activa</title>
     <link rel="icon" type="image/x-icon" href="/view/res/favicon_64.png">
-    <?php
+<?php
     // Fonts
     include 'view/common/fonts.php';
 
@@ -65,11 +65,11 @@ if (isset($_SESSION['user_id'])) {
     } else {
         $css_filename = $include_view->value;
     }
-    echo '<link rel="stylesheet" href="' . CSS_VIEW_PATH . $css_filename . '.css">';
-    
-    // Set JS files
-    echo '<script defer type="module" src="' . JS_VIEW_PATH . 'template.js"></script>';
+    echo "\t<link rel='stylesheet' href='" . CSS_VIEW_PATH . $css_filename . ".css'>" . PHP_EOL;
 
+    // Set JS files
+    echo "\t<script defer type='module' src='" . JS_VIEW_PATH . "template.js'></script>" . PHP_EOL;
+    
     if ($include_view === Views::USERS) {
         if (isset($url_id)) $js_filename = $include_view->value . '-detail';
         elseif ($url_act === 'new') $js_filename = $include_view->value . '-new';
@@ -77,12 +77,10 @@ if (isset($_SESSION['user_id'])) {
     } else {
         $js_filename = $include_view->value;
     }
-    echo '<script defer type="module" src="' . JS_VIEW_PATH . $js_filename . '.js"></script>';
-    ?>
+    echo "\t<script defer type='module' src='" . JS_VIEW_PATH . $js_filename . ".js'></script>" . PHP_EOL;
+?>
 </head>
 <body>
-    <?php
-    ?>
     <noscript>
         Habilit&aacute; JavaScript para ejecutar correctamente la aplicaci&oacute;n.
     </noscript>

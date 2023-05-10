@@ -42,7 +42,7 @@ passInp.addEventListener('input', matchPassVldt);
 matchPassInp.addEventListener('input', matchPassVldt);
 
 saveBtn.addEventListener('click', () => {
-    const validForm = (vldtForm(vldtFieldsArray) && matchPassVldt);
+    const validForm = (vldtForm(vldtFieldsArray) && matchPassVldt());
     let modalTitle, modalText, modalBtns;
 
     if (validForm) {

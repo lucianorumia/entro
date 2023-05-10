@@ -1,4 +1,5 @@
 @import "/view/css/common/base.css";
+@import "/view/css/common/def-table.css";
 @import "/view/css/common/modal.css";
 
 .main-container {
@@ -7,15 +8,70 @@
     overflow-y: hidden;
 }
 
-.movements {
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    width: 70%;
-    overflow-y: auto;
+.title {
+    color: var(--def-light-gray);
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding: 1em 1em 0.5em;
 }
 
-.movements__title {
+.def-table__container {
+    flex: 1;
+    overflow: auto;
+    /* display: flex; */
+}
+
+.def-table__row-mark {
+    width: 1em;
+    color: var(--def-light-gray);
+    height: 1.4em;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.def-table__row-mark--entry {
+    background-color: var(--def-entry-color);
+}
+
+.def-table__row-mark--entry::after {
+    content: "E";
+}
+
+.def-table__row-mark--exit {
+    background-color: var(--def-exit-color);
+}
+
+.def-table__row-mark--exit::after {
+    content: "S";
+}
+
+.def-table__row-mark--start-of-day {
+    background-color: var(--def-entry-color);
+}
+
+.def-table__row-mark--start-of-day::after {
+    content: "!";
+}
+
+.def-table__row-mark--inside-now {
+    background-color: var(--def-exit-color);
+}
+
+.def-table__row-mark--inside-now::after {
+    content: "...";
+}
+
+/* .movements {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 70%;
+    overflow-y: auto;
+} */
+
+/* .movements__title {
     text-align: center;
     font-weight: 600;
     margin: 2rem 0 .5rem;
@@ -43,7 +99,7 @@
 
 .movs-table__row--exit {
     background-color: var(--def-exit-color);
-}
+} */
 
 .movements__message {
     margin-top: 1.5rem;
@@ -58,6 +114,6 @@
 }
 
 .accum__label {
-    color: var(--def-accent-color);
     font-size: .8rem;
+    color: var(--def-accent-color);
 }

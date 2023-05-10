@@ -33,7 +33,7 @@ $movement_ctrl = new Movement_ctrl;
     </div>
     <div class="filter-strip__action-buttons">
         <input type="button" id="apply-flt" class="filter-strip__button" value="Aplicar">
-        <input type="button" id="reset-flt" class="filter-strip__button" value="Limpiar">
+        <!-- <input type="button" id="reset-flt" class="filter-strip__button" value="Limpiar"> -->
     </div>
 </form>
 <div class="def-table__container">
@@ -43,8 +43,6 @@ $movement_ctrl = new Movement_ctrl;
                 <th></th>
                 <th>Fecha</th>
                 <th>Hora</th>
-                <th>Parcial</th>
-                <th>Hs. Acum.</th>
                 <!-- <th></th> -->
             </tr>
         </thead>

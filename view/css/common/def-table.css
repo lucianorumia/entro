@@ -11,7 +11,6 @@
 
 .def-table thead th {
     font-weight: 600;
-    padding-top: 2rem;
     background-color: var(--def-back-gray);
 }
 
@@ -74,4 +73,15 @@
 
 .def-table tbody tr:hover .def-table__plus-btn {
     visibility: visible;
+}
+
+/* sm ----------------------------------------------------------------------- */
+.def-table thead th {
+    padding-top: 1rem;
+}
+
+@media only screen and (min-width: 576px) {
+    .def-table thead th {
+        padding-top: 2rem;
+    }
 }

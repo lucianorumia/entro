@@ -16,13 +16,14 @@ $datetime_from->setTimezone(UTC_TIMEZONE);
 $movements = $movement_ctrl->getUserMovements($_SESSION['user_id'], $datetime_from->format('Y-m-d H:i:s'));
 
 echo <<<HTML
-    <p class="movements__title">Movimientos del día</p>
-    <div class="movements">
+    <h1 class="title">Movimientos del día</h1>
+    <!-- <div class="movements"> -->
+    <div class="def-table__container">
 HTML;
 
-if ($movements) {
+echo '<table class="def-table">';
 
-    echo '<table class="movs-table">';
+if ($movements) {
 
     $q_movs = count($movements);
     
@@ -33,36 +34,71 @@ if ($movements) {
 
         if ($movement['mov_type_id']) {
             $accum -= $seconds; 
-            if ($i === count($movements) - 1) $still_inside = true;
-            $css_class = 'movs-table__row--entry';
+            if ($i === count($movements) - 1) {
+                $still_inside = true;
+            }
+            $css_class = 'def-table__row-mark--entry';
         } else {
             $accum += $seconds; 
-            if ($i === 0) $accum -= $datetime_from->getTimestamp();
-            $css_class = 'movs-table__row--exit';
+            if ($i === 0) {
+                $accum -= $datetime_from->getTimestamp();
+                echo "<tr>
+                        <td><div class='def-table__row-mark def-table__row-mark--start-of-day'></div></td>
+                        <td>00:00:00</td>
+                    </tr>";
+            }
+            $css_class = 'def-table__row-mark--exit';
         }
 
-        echo "<tr><td class='movs-table__row $css_class'>{$datetime->format('H:i:s')}</td></tr>";
+        echo "<tr>\n
+                <td><div class='def-table__row-mark $css_class'></div></td>\n
+                <td>{$datetime->format('H:i:s')}</td>\n
+            </tr>";
+
+        if ($still_inside) {
+            $now = new DateTime();
+            echo "<tr>
+                <td><div class='def-table__row-mark def-table__row-mark--inside-now'></div></td>
+                <td id='now-time'>{$now->format('H:i:s')}</td>
+            </tr>";
+        }
     }
     unset($q_movs);
     
-    echo '</table>';
 } else {
-    $html_str = '<p class="movements__message">Aún no tenés movimientos para mostrar.';
     if ($movement_ctrl->lastUserMov($_SESSION['user_id'])['state']) {
         $accum -= $datetime_from->getTimestamp();
         $still_inside = true;
-        $html_str .= '<br/><br/>Aunque cuando empezó el día ya estabas trabajando.';
+        $now = new DateTime();
+            echo "<tr>
+                    <td><div class='def-table__row-mark def-table__row-mark--start-of-day'></div></td>
+                    <td>00:00:00</td>
+                </tr>
+                <tr>
+                    <td><div class='def-table__row-mark def-table__row-mark--inside-now'></div></td>
+                    <td id='now-time'>{$now->format('H:i:s')}</td>
+                </tr>";
+        
+    } else {
+        $no_movs = true;
     }
-    $html_str .= '</p>';
-    
-    echo "$html_str";
 }
+
+echo "</table>\n";
+
+if ($no_movs ??= false) echo '<div class="pseudo-modal modal--info">
+        <div class="modal__header">
+            <div class="modal__icon"></div>
+            <h3 class="modal__title">Ups!</h3>
+        </div>
+        <p class="modal__text">Aún no tenés movimientos.</p>
+    </div>';
 
 echo '</div>';
 
 if ($still_inside) {
     $js_aux_accum = $accum;
-    $now = new DateTime();
+    // $now ??= new DateTime();
     $accum += $now->getTimestamp();
 } else {
     $js_aux_accum = 'false';

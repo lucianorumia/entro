@@ -1,13 +1,10 @@
-import { Ymd, His, msToHis, msToDecHs, sameDay, MILISECONDS } from "./modules/dates.js";
-import { VLDT_TYPE, VltdField, vldtForm, vldtSetListeners, vldtUnset } from "/view/js/modules/validations.js";
+import { Ymd, His, msToHis, sameDay, MILISECONDS } from "./modules/dates.js";
 import { MODAL_MODE, MODAL_BUTTON, setModal, resetModal } from "/view/js/modules/modal.js";
 
-const filterForm = document.getElementById('filter-form');
-// const userInp = document.getElementById('user');
+// const filterForm = document.getElementById('filter-form');
 const dateFromInp = document.getElementById('date-from');
 const dateToInp = document.getElementById('date-to');
 const applyFilters = document.getElementById('apply-flt');
-const resetFilters = document.getElementById('reset-flt');
 const userPeriodTbody = document.getElementById('user-period-tbody');
 const rowMarkModifier = {
     entry: 'entry',
@@ -76,17 +73,27 @@ const localVldtUnset = () => {
 
 // Validations end -------------------------------------------------------------
 
-function addTableRow(markModifier, date, time, partial, accum, movementKey) {
+function addTableRow(markModifier, date, time, movementKey) {
     const newElement = document.createElement('tr');
     const insideNow = (markModifier === rowMarkModifier.insideNow);
     const plusBtn = (movementKey === undefined) ? '' : `<a class="def-table__plus-btn" href="/index.php?view=movement&id=${movementKey}">+</a>`
     const innerHtmlStr = `<td><div class="def-table__row-mark def-table__row-mark--${markModifier}"></div></td>
         <td>${date}</td>
         <td${insideNow ? ' id="now-time"' : ''}>${time}</td>
-        <td${insideNow ? ' id="now-partial"' : ''}>${partial ?? ''}</td>
-        <td${insideNow ? ' id="now-accum"' : ''}>${accum ?? ''}</td>
         <!-- <td>${plusBtn}</td> -->`
     newElement.classList.add('def-table__body-row')
+    newElement.innerHTML = innerHtmlStr;
+    userPeriodTbody.appendChild(newElement);
+}
+
+function addTableStatRow(markModifier, partial, accum) {
+    const newElement = document.createElement('tr');
+    const insideNow = (markModifier === rowMarkModifier.insideNow);
+    const innerHtmlStr = `<td class="stat-row" colspan="3">
+        Parc. <span${insideNow ? ' id="now-partial"' : ''}>${partial ?? ''}</span>
+        - Acum. <span${insideNow ? ' id="now-accum"' : ''}>${accum ?? ''}</span>
+        </td>`
+    //newElement.classList.add('def-table__body-row')
     newElement.innerHTML = innerHtmlStr;
     userPeriodTbody.appendChild(newElement);
 }
@@ -104,7 +111,8 @@ function updateTimes() {
         const hisPartial = msToHis(partialMs);
         const partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
         const accumMs = preAccum + partialMs;  
-        const accumDisplay = msToDecHs(accumMs, 2);
+        const hisAccum = msToHis(accumMs);
+        const accumDisplay = `${hisAccum.H}:${hisAccum.i}:${hisAccum.s}`;
         const htmlElmts = [nowTimeTd, nowPartialTd, nowAccumTd];
         const textContent = [formattedTime, partialDisplay, accumDisplay];
 
@@ -181,7 +189,8 @@ function getMovements() {
                         partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
                         accumMs += partialMs;
                         partialMs = 0;
-                        accumDisplay = msToDecHs(accumMs, 2);
+                        const hisAccum = msToHis(accumMs);
+                        accumDisplay = `${hisAccum.H}:${hisAccum.i}:${hisAccum.s}`;
                         cssClass = rowMarkModifier.exit;
                     }
 
@@ -190,7 +199,10 @@ function getMovements() {
                     const hisDatetime = His(datetime);
                     const formattedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
 
-                    addTableRow(cssClass, formattedDate, formattedTime, partialDisplay, accumDisplay, movement.key);
+                    addTableRow(cssClass, formattedDate, formattedTime, movement.key);
+                    if (! movement.type) {
+                        addTableStatRow(cssClass, partialDisplay, accumDisplay);
+                    }
                 });
 
                 if (endsInside) {
@@ -212,9 +224,11 @@ function getMovements() {
                         const formattedTime = `${hisDatetime.H}:${hisDatetime.i}:${hisDatetime.s}`;
                         const hisPartial = msToHis(partialMs);
                         partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
-                        accumDisplay = msToDecHs(accumMs, 2);
+                        const hisAccum = msToHis(accumMs);
+                        accumDisplay = `${hisAccum.H}:${hisAccum.i}:${hisAccum.s}`;
 
-                        addTableRow(rowMarkModifier.insideNow, formattedDate, formattedTime, partialDisplay, accumDisplay);
+                        addTableRow(rowMarkModifier.insideNow, formattedDate, formattedTime);
+                        addTableStatRow(rowMarkModifier.insideNow, partialDisplay, accumDisplay);
                         updateTimes();
                     } else {
                         datetimeTo.setTime(datetimeTo.getTime() + MILISECONDS.DAY);
@@ -227,9 +241,11 @@ function getMovements() {
                         const hisPartial = msToHis(partialMs);
                         const endDayCaption = '24:00:00';
                         partialDisplay = `${hisPartial.H}:${hisPartial.i}:${hisPartial.s}`;
-                        accumDisplay = msToDecHs(accumMs, 2);
+                        const hisAccum = msToHis(accumMs);
+                        accumDisplay = `${hisAccum.H}:${hisAccum.i}:${hisAccum.s}`;
 
-                        addTableRow(rowMarkModifier.endOfDay, formattedDate, endDayCaption, partialDisplay, accumDisplay);
+                        addTableRow(rowMarkModifier.endOfDay, formattedDate, endDayCaption);
+                        addTableStatRow(rowMarkModifier.endOfDay, partialDisplay, accumDisplay);
                     }
                 }
                 userPeriodTable.style.visibility = "visible";
@@ -237,14 +253,14 @@ function getMovements() {
                 userPeriodTable.style.visibility = "hidden";
 
                 let modalTitle = 'Nada que mostrar';
-                let modalText = 'No hay movimientos para mostrar.<br>'
+                let modalText = 'No hay movimientos en el rango de fechas seleccionado.<br>'
                     + 'Cambiá los criterios de búsqueda y volvé a aplicar el filtro.';
                 let modalBtns = [MODAL_BUTTON.OK];
                 setModal(modal, MODAL_MODE.INFO, modalTitle, modalText, modalBtns);
 
                 modal.addEventListener('close', () => {
                     resetModal(modal);
-                    userInp.select();
+                    dateFromInp.select();
                 }, {once: true});
 
                 modal.showModal();
@@ -265,9 +281,4 @@ applyFilters.addEventListener('click', () => {
     if (validForm) {
         getMovements();
     }
-});
-
-resetFilters.addEventListener('click', () => {
-    localVldtUnset();
-    filterForm.reset();
 });
