@@ -55,13 +55,13 @@ if ($movements) {
                 <td>{$datetime->format('H:i:s')}</td>\n
             </tr>";
 
-        if ($still_inside) {
-            $now = new DateTime();
-            echo "<tr>
-                <td><div class='def-table__row-mark def-table__row-mark--inside-now'></div></td>
-                <td id='now-time'>{$now->format('H:i:s')}</td>
-            </tr>";
-        }
+        // if ($still_inside) {
+        //     $now = new DateTime();
+        //     echo "<tr>
+        //         <td><div class='def-table__row-mark def-table__row-mark--inside-now'></div></td>
+        //         <td id='now-time'>{$now->format('H:i:s')}</td>
+        //     </tr>";
+        // }
     }
     unset($q_movs);
     
@@ -69,15 +69,15 @@ if ($movements) {
     if ($movement_ctrl->lastUserMov($_SESSION['user_id'])['state']) {
         $accum -= $datetime_from->getTimestamp();
         $still_inside = true;
-        $now = new DateTime();
-            echo "<tr>
-                    <td><div class='def-table__row-mark def-table__row-mark--start-of-day'></div></td>
-                    <td>00:00:00</td>
-                </tr>
-                <tr>
-                    <td><div class='def-table__row-mark def-table__row-mark--inside-now'></div></td>
-                    <td id='now-time'>{$now->format('H:i:s')}</td>
-                </tr>";
+        // $now = new DateTime();
+        echo "<tr>
+                <td><div class='def-table__row-mark def-table__row-mark--start-of-day'></div></td>
+                <td>00:00:00</td>
+            </tr>";
+        // echo "<tr>
+        //         <td><div class='def-table__row-mark def-table__row-mark--inside-now'></div></td>
+        //         <td id='now-time'>{$now->format('H:i:s')}</td>
+        //     </tr>";
         
     } else {
         $no_movs = true;
@@ -98,7 +98,7 @@ echo '</div>';
 
 if ($still_inside) {
     $js_aux_accum = $accum;
-    // $now ??= new DateTime();
+    $now = new DateTime();
     $accum += $now->getTimestamp();
 } else {
     $js_aux_accum = 'false';
